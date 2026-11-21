@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo } from "react";
 import Link from "next/link";
-import { ArrowRight, Scissors, Layers } from "lucide-react";
+import { ArrowRight, Scissors } from "lucide-react";
 import { Product, Category } from "@/types";
 import ProductCard from "@/components/product/ProductCard";
 
@@ -82,9 +82,9 @@ export default function TheLatestEdit({
           </Link>
         </div>
 
-        {/* Interactive Category Filter Tabs */}
+        {/* Clean Wrap Category Tabs - Zero Scroll Line */}
         {categoryFilters.length > 1 && (
-          <div className="flex items-center gap-2 overflow-x-auto pb-3 mb-8 no-scrollbar border-b border-beige-border/50">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-2.5 mb-8 sm:mb-10">
             {categoryFilters.map((tab) => {
               const isActive =
                 selectedCategory === tab.id || selectedCategory === tab.slug;
@@ -102,18 +102,18 @@ export default function TheLatestEdit({
                 <button
                   key={tab.id || tab.slug}
                   onClick={() => setSelectedCategory(tab.id || tab.slug)}
-                  className={`px-4 py-2 text-xs uppercase tracking-luxury rounded-sm transition-all duration-200 whitespace-nowrap flex items-center gap-2 ${
+                  className={`px-3.5 sm:px-4 py-2 text-xs uppercase tracking-luxury rounded transition-all duration-200 whitespace-nowrap flex items-center gap-2 ${
                     isActive
-                      ? "bg-navy text-gold font-semibold shadow-sm border border-navy"
-                      : "bg-white hover:bg-beige-subtle text-charcoal hover:text-navy border border-beige-border"
+                      ? "bg-navy text-gold font-bold shadow-md border border-navy"
+                      : "bg-white hover:bg-beige-subtle text-navy/80 hover:text-navy border border-beige-border hover:border-gold/50 shadow-xs"
                   }`}
                 >
                   <span>{tab.name}</span>
                   <span
                     className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono ${
                       isActive
-                        ? "bg-gold/20 text-gold"
-                        : "bg-slate-100 text-charcoal/60"
+                        ? "bg-gold/20 text-gold font-bold"
+                        : "bg-beige-subtle text-charcoal/70"
                     }`}
                   >
                     {count}

@@ -81,13 +81,15 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       
       {/* Mobile Top Header */}
       <div className="lg:hidden bg-navy-deep text-ivory p-4 flex items-center justify-between border-b border-navy-light">
-        <div className="relative w-36 h-9">
-          <Image
-            src="/fab_basic_logo_transparent.png"
-            alt="FAB BASIC Admin"
-            fill
-            className="object-contain object-left brightness-0 invert"
-          />
+        <div className="bg-white rounded px-2.5 py-1">
+          <div className="relative w-32 h-7">
+            <Image
+              src="/fab_basic_logo_transparent.png"
+              alt="FAB BASIC Admin"
+              fill
+              className="object-contain object-left"
+            />
+          </div>
         </div>
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -107,14 +109,16 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <div>
           {/* Logo & Brand Header */}
           <div className="p-6 border-b border-navy-light/40">
-            <div className="relative w-44 h-12">
-              <Image
-                src="/fab_basic_logo_transparent.png"
-                alt="FAB BASIC"
-                fill
-                priority
-                className="object-contain object-left brightness-0 invert"
-              />
+            <div className="bg-white rounded-md p-2.5 border border-gold/30 shadow-xs inline-block w-full">
+              <div className="relative w-full h-10">
+                <Image
+                  src="/fab_basic_logo_transparent.png"
+                  alt="FAB BASIC"
+                  fill
+                  priority
+                  className="object-contain object-left"
+                />
+              </div>
             </div>
             <div className="mt-3 flex items-center justify-between">
               <span className="text-[10px] uppercase tracking-luxury text-gold font-bold">

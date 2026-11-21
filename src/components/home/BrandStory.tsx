@@ -6,12 +6,12 @@ export default function BrandStory({ settings }: { settings: StoreSettings }) {
     <section className="py-20 sm:py-28 bg-white border-t border-beige-border">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
         
-        {/* Needle Emblem Motif */}
+        {/* Brand Logo Emblem */}
         <div className="flex justify-center mb-4">
-          <div className="w-8 h-8 relative opacity-80">
+          <div className="w-36 sm:w-44 h-10 sm:h-12 relative">
             <Image
               src="/fab_basic_logo_transparent.png"
-              alt="FAB BASIC Lotus Needle Emblem"
+              alt="FAB BASIC"
               fill
               className="object-contain"
             />

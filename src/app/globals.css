@@ -31,10 +31,10 @@ body {
   color: #FFFFFF;
 }
 
-/* Custom subtle luxury scrollbars */
+/* Custom subtle luxury vertical scrollbar only (zero horizontal bar) */
 ::-webkit-scrollbar {
   width: 6px;
-  height: 6px;
+  height: 0px; /* Suppress all default horizontal scrollbar lines */
 }
 
 ::-webkit-scrollbar-track {
@@ -48,6 +48,28 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #B99A59;
+}
+
+/* Complete scrollbar suppression utility */
+.no-scrollbar::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none !important; /* IE and Edge */
+  scrollbar-width: none !important; /* Firefox */
+}
+
+/* Chrome/Safari Autofill styling to prevent harsh yellow or black rectangles */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0px 1000px #F8FAFC inset !important;
+  -webkit-text-fill-color: #0F172A !important;
+  transition: background-color 5000s ease-in-out 0s;
 }
 
 /* Luxury typographic utilities */
