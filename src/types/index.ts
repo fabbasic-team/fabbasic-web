@@ -1,5 +1,20 @@
 export type SellingUnit = "per_metre" | "piece" | "set";
 
+export interface EditorialFeatureSettings {
+  is_active: boolean;
+  image_url: string | null;
+  image_public_id?: string | null;
+  card_tag?: string;
+  card_title?: string;
+  card_features?: string[];
+  eyebrow: string;
+  heading: string;
+  text_1: string;
+  text_2?: string;
+  cta_text: string;
+  cta_link: string;
+}
+
 export interface StoreSettings {
   id: string;
   site_name: string;
@@ -17,6 +32,7 @@ export interface StoreSettings {
   brand_story_subheading: string;
   brand_story_text: string;
   brand_story_image: string | null;
+  editorial_feature?: EditorialFeatureSettings;
   signature_selection_heading: string;
   signature_selection_subheading: string;
   exclusive_collection_heading: string;

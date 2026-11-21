@@ -1,5 +1,22 @@
 import { createAdminClient } from "@/utils/supabase/admin";
-import { StoreSettings, HomepageBanner, Category, Product } from "@/types";
+import { StoreSettings, HomepageBanner, Category, Product, EditorialFeatureSettings } from "@/types";
+
+export const DEFAULT_EDITORIAL_FEATURE: EditorialFeatureSettings = {
+  is_active: true,
+  image_url: null,
+  image_public_id: null,
+  card_tag: "Bespoke Cloth House",
+  card_title: "Precision in Every Metre. Elegance in Every Thread.",
+  card_features: ["100% Certified Mills", "Pinking Shear Cut", "Heirloom Weaves"],
+  eyebrow: "BESPOKE CRAFTSMANSHIP",
+  heading: "The Art of Fine Fabric",
+  text_1:
+    "A bespoke garment is only as exceptional as the cloth from which it is cut. We handpick every bolt for its tactile drape, breathability, and natural longevity.",
+  text_2:
+    "Whether tailoring a sharp ceremonial two-piece or commissioning everyday executive shirting, our collection bridges European textile precision with Indian sartorial mastery.",
+  cta_text: "Explore The Mill Archive",
+  cta_link: "/collections",
+};
 
 // Default settings if database row is not yet initialized
 export const DEFAULT_STORE_SETTINGS: StoreSettings = {
@@ -20,6 +37,7 @@ export const DEFAULT_STORE_SETTINGS: StoreSettings = {
   brand_story_text:
     "At FAB BASIC, we believe tailoring begins with extraordinary cloth. From prestigious European mills to artisanal Indian handloom masters, our textiles are chosen for exceptional drape, durability, and hand-feel.",
   brand_story_image: null,
+  editorial_feature: DEFAULT_EDITORIAL_FEATURE,
   signature_selection_heading: "The Signature Selection",
   signature_selection_subheading: "A collection of customer favourites and enduring classics.",
   exclusive_collection_heading: "Beyond the Ordinary",
@@ -46,7 +64,23 @@ export async function getStoreSettings(): Promise<StoreSettings> {
     if (error || !data) {
       return DEFAULT_STORE_SETTINGS;
     }
-    return data as StoreSettings;
+
+    let editorialFeature = DEFAULT_EDITORIAL_FEATURE;
+    if (data.brand_story_image && typeof data.brand_story_image === "string" && data.brand_story_image.startsWith("{")) {
+      try {
+        editorialFeature = {
+          ...DEFAULT_EDITORIAL_FEATURE,
+          ...JSON.parse(data.brand_story_image),
+        };
+      } catch (err) {
+        console.error("Error parsing editorial feature settings:", err);
+      }
+    }
+
+    return {
+      ...data,
+      editorial_feature: editorialFeature,
+    } as StoreSettings;
   } catch {
     return DEFAULT_STORE_SETTINGS;
   }

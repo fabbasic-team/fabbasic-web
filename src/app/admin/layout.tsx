@@ -72,7 +72,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       name: "Website CMS & Settings",
       href: "/admin/settings",
       icon: Sliders,
-      description: "Announcement bar, policies, story",
+      description: "Editorial feature, story, contacts",
     },
   ];
 

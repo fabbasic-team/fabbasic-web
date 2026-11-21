@@ -49,7 +49,7 @@ export default async function HomePage() {
       <TheLatestEdit products={latestProducts} />
 
       {/* Editorial Feature: The Art of Fine Fabric */}
-      <EditorialFeature />
+      <EditorialFeature settings={settings} />
 
       {/* The Signature Selection: Best Sellers */}
       <TheSignatureSelection products={featuredProducts} />

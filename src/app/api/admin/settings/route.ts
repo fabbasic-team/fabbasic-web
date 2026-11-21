@@ -19,7 +19,21 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
-  return NextResponse.json({ settings: data });
+  let editorialFeature = null;
+  if (data?.brand_story_image && typeof data.brand_story_image === "string" && data.brand_story_image.startsWith("{")) {
+    try {
+      editorialFeature = JSON.parse(data.brand_story_image);
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  return NextResponse.json({
+    settings: {
+      ...data,
+      editorial_feature: editorialFeature,
+    },
+  });
 }
 
 export async function PUT(request: NextRequest) {
@@ -30,6 +44,12 @@ export async function PUT(request: NextRequest) {
 
   const updates = await request.json();
   const supabase = createAdminClient();
+
+  // If editorial_feature is provided, store structured in brand_story_image
+  if (updates.editorial_feature) {
+    updates.brand_story_image = JSON.stringify(updates.editorial_feature);
+    delete updates.editorial_feature;
+  }
 
   const { data, error } = await supabase
     .from("store_settings")

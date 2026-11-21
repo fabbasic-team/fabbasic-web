@@ -324,18 +324,25 @@ export default function AdminDashboardPage() {
             <CheckCircle2 className="w-5 h-5 text-gold" />
           </div>
           <div>
-            <h3 className="text-base font-semibold text-slate-900">Website CMS &amp; Settings</h3>
+            <h3 className="text-base font-semibold text-slate-900">Website CMS &amp; Editorial</h3>
             <p className="text-xs text-slate-500 mt-1 leading-relaxed">
-              Change the announcement bar text and active toggle, brand story text, contact details, social links, return policy, and payment credentials.
+              Upload cover photography &amp; edit story copy for &ldquo;The Art of Fine Fabric&rdquo;, announcement bar, brand story, and client care contacts.
             </p>
           </div>
-          <Link
-            href="/admin/settings"
-            className="inline-flex items-center gap-1.5 text-xs font-semibold text-navy hover:text-gold uppercase tracking-luxury transition-colors"
-          >
-            <span>Configure Store Settings</span>
-            <ArrowRight className="w-3.5 h-3.5" />
-          </Link>
+          <div className="space-y-1.5 pt-1">
+            <Link
+              href="/admin/settings#editorial-feature"
+              className="inline-flex items-center gap-1.5 text-xs font-semibold text-gold-muted hover:text-navy uppercase tracking-luxury transition-colors block"
+            >
+              <span>The Art of Fine Fabric →</span>
+            </Link>
+            <Link
+              href="/admin/settings"
+              className="inline-flex items-center gap-1.5 text-[11px] font-medium text-slate-500 hover:text-navy transition-colors block"
+            >
+              <span>Store Settings &amp; Concierge →</span>
+            </Link>
+          </div>
         </div>
 
       </div>
