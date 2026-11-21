@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { HomepageBanner } from "@/types";
 
 interface HeroCarouselProps {
@@ -187,26 +187,6 @@ export default function HeroCarousel({ banners }: HeroCarouselProps) {
           </div>
         );
       })}
-
-      {/* Navigation Arrows */}
-      {totalBanners > 1 && (
-        <div className="absolute inset-y-0 left-0 right-0 z-30 flex items-center justify-between px-4 sm:px-8 pointer-events-none">
-          <button
-            onClick={prevSlide}
-            className="w-10 h-10 sm:w-12 sm:h-12 rounded-full border border-ivory/30 bg-navy/40 hover:bg-navy/80 text-ivory flex items-center justify-center transition-all duration-200 pointer-events-auto backdrop-blur-sm"
-            aria-label="Previous Slide"
-          >
-            <ChevronLeft className="w-5 h-5 stroke-[1.5]" />
-          </button>
-          <button
-            onClick={nextSlide}
-            className="w-10 h-10 sm:w-12 sm:h-12 rounded-full border border-ivory/30 bg-navy/40 hover:bg-navy/80 text-ivory flex items-center justify-center transition-all duration-200 pointer-events-auto backdrop-blur-sm"
-            aria-label="Next Slide"
-          >
-            <ChevronRight className="w-5 h-5 stroke-[1.5]" />
-          </button>
-        </div>
-      )}
 
       {/* Indicators */}
       {totalBanners > 1 && (
