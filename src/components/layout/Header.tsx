@@ -8,10 +8,8 @@ import {
   Search,
   ShoppingBag,
   Heart,
-  User,
   Menu,
   X,
-  ChevronDown,
   ArrowRight,
 } from "lucide-react";
 import { useCart } from "@/context/CartContext";
@@ -218,16 +216,6 @@ export default function Header({ categories, settings, onOpenSearch }: HeaderPro
               <Search className="w-5 h-5 stroke-[1.5]" />
             </button>
 
-            {/* Account / Admin Portal */}
-            <Link
-              href="/admin"
-              className="p-2.5 text-navy hover:text-gold transition-colors hidden sm:flex items-center justify-center rounded-full hover:bg-beige-subtle/60"
-              title="Admin Portal"
-              aria-label="Admin Portal"
-            >
-              <User className="w-5 h-5 stroke-[1.5]" />
-            </Link>
-
             {/* Wishlist Icon */}
             <Link
               href="/wishlist"
@@ -362,13 +350,6 @@ export default function Header({ categories, settings, onOpenSearch }: HeaderPro
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     Client Concierge &amp; Bespoke Inquiries
-                  </Link>
-                  <Link
-                    href="/admin"
-                    className="block text-xs text-gold hover:text-navy font-semibold transition-colors py-1"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    Admin CMS Login →
                   </Link>
                 </div>
               </div>

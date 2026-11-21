@@ -87,11 +87,6 @@ export default function Footer({ settings, categories }: FooterProps) {
                   Bespoke Inquiries
                 </Link>
               </li>
-              <li>
-                <Link href="/admin" className="hover:text-gold transition-colors text-gold/80">
-                  Admin Portal
-                </Link>
-              </li>
             </ul>
           </div>
 
