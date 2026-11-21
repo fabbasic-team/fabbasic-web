@@ -28,11 +28,14 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
   const { addToCart, openCart } = useCart();
   const { isInWishlist, toggleWishlist } = useWishlist();
 
-  const images = product.images && product.images.length > 0
-    ? product.images.map((img) => img.image_url)
-    : ["https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=1200&q=85"];
+  const images =
+    product.images && product.images.length > 0
+      ? product.images.map((img) => img.image_url)
+      : [];
 
-  const [selectedImage, setSelectedImage] = useState(images[0]);
+  const [selectedImage, setSelectedImage] = useState<string | null>(
+    images[0] || null
+  );
   const [quantity, setQuantity] = useState(product.min_order_qty || 1.0);
   const [addedAnimation, setAddedAnimation] = useState(false);
 
@@ -57,7 +60,7 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
       price: product.price,
       sellingUnit: product.selling_unit,
       quantity,
-      image: selectedImage,
+      image: selectedImage || "",
       brand: product.brand || undefined,
       composition: product.fabric_composition || undefined,
       width: product.fabric_width || undefined,
@@ -85,14 +88,31 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
       <div className="lg:col-span-7 space-y-4">
         {/* Main Image View */}
         <div className="relative aspect-[4/5] w-full bg-white border border-beige-border overflow-hidden rounded-sm shadow-sm group">
-          <Image
-            src={selectedImage}
-            alt={product.title}
-            fill
-            priority
-            className="object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
-            sizes="(max-width: 1024px) 100vw, 60vw"
-          />
+          {selectedImage ? (
+            <Image
+              src={selectedImage}
+              alt={product.title}
+              fill
+              priority
+              className="object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
+              sizes="(max-width: 1024px) 100vw, 60vw"
+            />
+          ) : (
+            <div className="w-full h-full bg-navy-deep flex flex-col items-center justify-center p-8 text-center text-ivory">
+              <div className="w-16 h-16 rounded-full border border-gold/40 flex items-center justify-center text-gold mb-4">
+                <Scissors className="w-8 h-8" />
+              </div>
+              <span className="text-xs uppercase tracking-luxury text-gold font-mono font-bold">
+                FAB BASIC ATELIER
+              </span>
+              <h2 className="text-xl font-serif text-ivory mt-2">
+                {product.title}
+              </h2>
+              <p className="text-xs text-ivory/60 mt-1 max-w-xs">
+                {product.fabric_composition || "Premium Mill Cloth"}
+              </p>
+            </div>
+          )}
 
           {/* Exclusive Badge */}
           {product.is_exclusive && (

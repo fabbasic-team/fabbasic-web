@@ -29,14 +29,35 @@ export default async function AboutPage() {
             </p>
           </div>
 
-          {/* Hero Visual */}
-          <div className="relative aspect-[16/9] w-full rounded-sm overflow-hidden shadow-xl border border-beige-border">
-            <Image
-              src="https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=1600&q=85"
-              alt="Bespoke tailoring textiles"
-              fill
-              className="object-cover"
-            />
+          {/* Hero Visual Card */}
+          <div className="aspect-[16/9] w-full rounded-sm overflow-hidden shadow-xl border border-beige-border bg-navy-deep p-8 sm:p-12 flex flex-col justify-between text-ivory relative">
+            <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#B99A59_1px,transparent_1px)] [background-size:24px_24px]" />
+            <div className="relative z-10 flex items-center justify-between">
+              <span className="text-xs uppercase tracking-luxury text-gold font-mono font-bold">
+                ESTABLISHED TEXTILE HOUSE
+              </span>
+              <span className="text-xs text-ivory/60">STITCH • STYLE • ELEGANCE</span>
+            </div>
+
+            <div className="relative z-10 text-center space-y-4 max-w-lg mx-auto my-auto">
+              <div className="relative w-44 h-14 mx-auto">
+                <Image
+                  src="/fab-basic-logo.png"
+                  alt="FAB BASIC"
+                  fill
+                  className="object-contain brightness-0 invert"
+                />
+              </div>
+              <p className="text-sm text-ivory/80 font-light leading-relaxed">
+                Purveyors of finest luxury shirting fabrics, worsted wool suiting cloth, and heritage traditional dhotis and veshtis.
+              </p>
+            </div>
+
+            <div className="relative z-10 flex items-center justify-between text-[11px] text-ivory/40 pt-4 border-t border-navy-light/40">
+              <span>Direct Mill Partnerships</span>
+              <span>Precision Cloth Metering</span>
+              <span>Worldwide Bespoke Delivery</span>
+            </div>
           </div>
 
           {/* Philosophy Pillars */}

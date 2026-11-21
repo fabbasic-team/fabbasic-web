@@ -10,28 +10,30 @@ interface HeroCarouselProps {
   banners: HomepageBanner[];
 }
 
-// Fallback banner if admin has not yet uploaded banners to Supabase
-const DEFAULT_FALLBACK_BANNER: HomepageBanner = {
-  id: "default-banner-1",
-  title: "Refined Fabrics for Modern Tailoring",
-  eyebrow: "THE FABRIC EDIT",
-  subtitle: "A curated range of shirting and suiting fabrics for every occasion.",
-  cta_text: "Shop the Collection",
-  cta_link: "/collections",
-  desktop_image_url:
-    "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=2000&q=85",
-  mobile_image_url:
-    "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=1000&q=85",
-  text_alignment: "left",
-  overlay_intensity: 45,
-  display_order: 1,
-  is_active: true,
-  created_at: new Date().toISOString(),
-  updated_at: new Date().toISOString(),
-};
-
 export default function HeroCarousel({ banners }: HeroCarouselProps) {
-  const activeBanners = banners.length > 0 ? banners : [DEFAULT_FALLBACK_BANNER];
+  // If no banners from database, render editorial default without external image
+  const hasBanners = banners.length > 0;
+  const activeBanners: HomepageBanner[] = hasBanners
+    ? banners
+    : [
+        {
+          id: "welcome-slide",
+          title: "Refined Fabrics for Modern Tailoring",
+          eyebrow: "THE FABRIC EDIT",
+          subtitle: "A curated range of shirting and suiting fabrics for every occasion.",
+          cta_text: "Explore Collections",
+          cta_link: "/collections",
+          desktop_image_url: "",
+          mobile_image_url: "",
+          text_alignment: "left",
+          overlay_intensity: 40,
+          display_order: 1,
+          is_active: true,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        },
+      ];
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const touchStartX = useRef<number | null>(null);
@@ -45,7 +47,6 @@ export default function HeroCarousel({ banners }: HeroCarouselProps) {
     setCurrentIndex((prev) => (prev - 1 + totalBanners) % totalBanners);
   }, [totalBanners]);
 
-  // Subtle auto-slide timer (6 seconds), pauses on user hover
   useEffect(() => {
     if (totalBanners <= 1 || isPaused) return;
     const timer = setInterval(() => {
@@ -54,7 +55,6 @@ export default function HeroCarousel({ banners }: HeroCarouselProps) {
     return () => clearInterval(timer);
   }, [totalBanners, isPaused, nextSlide]);
 
-  // Touch swipe support
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX;
   };
@@ -68,8 +68,6 @@ export default function HeroCarousel({ banners }: HeroCarouselProps) {
     }
     touchStartX.current = null;
   };
-
-  const currentBanner = activeBanners[currentIndex];
 
   const getAlignmentClasses = (alignment: string) => {
     switch (alignment) {
@@ -101,41 +99,58 @@ export default function HeroCarousel({ banners }: HeroCarouselProps) {
               isCurrent ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"
             }`}
           >
-            {/* Desktop Image */}
-            <div className="hidden sm:block absolute inset-0">
-              <Image
-                src={banner.desktop_image_url}
-                alt={banner.title}
-                fill
-                priority={index === 0}
-                className="object-cover object-center"
-                sizes="100vw"
-              />
-            </div>
+            {/* Background Texture & Custom Uploaded Images */}
+            {banner.desktop_image_url ? (
+              <>
+                {/* Desktop Image */}
+                <div className="hidden sm:block absolute inset-0">
+                  <Image
+                    src={banner.desktop_image_url}
+                    alt={banner.title}
+                    fill
+                    priority={index === 0}
+                    className="object-cover object-center"
+                    sizes="100vw"
+                  />
+                </div>
 
-            {/* Mobile Image (Portrait optimized) */}
-            <div className="block sm:hidden absolute inset-0">
-              <Image
-                src={banner.mobile_image_url || banner.desktop_image_url}
-                alt={banner.title}
-                fill
-                priority={index === 0}
-                className="object-cover object-center"
-                sizes="100vw"
-              />
-            </div>
+                {/* Mobile Image */}
+                <div className="block sm:hidden absolute inset-0">
+                  <Image
+                    src={banner.mobile_image_url || banner.desktop_image_url}
+                    alt={banner.title}
+                    fill
+                    priority={index === 0}
+                    className="object-cover object-center"
+                    sizes="100vw"
+                  />
+                </div>
 
-            {/* Configurable Darkness Gradient Overlay */}
-            <div
-              className="absolute inset-0 bg-gradient-to-r from-navy-deep/90 via-navy-deep/60 to-transparent"
-              style={{
-                opacity: (banner.overlay_intensity ?? 45) / 100,
-              }}
-            />
-            {/* Subtle bottom vignette */}
+                {/* Darkness Overlay */}
+                <div
+                  className="absolute inset-0 bg-gradient-to-r from-navy-deep/90 via-navy-deep/60 to-transparent"
+                  style={{ opacity: (banner.overlay_intensity ?? 45) / 100 }}
+                />
+              </>
+            ) : (
+              /* Pure Luxury CSS Canvas when no image is uploaded yet */
+              <div className="absolute inset-0 bg-gradient-to-br from-[#0B1530] via-[#101B35] to-[#152243] flex items-center justify-center">
+                <div className="absolute inset-0 opacity-15 bg-[radial-gradient(#B99A59_1px,transparent_1px)] [background-size:24px_24px]" />
+                <div className="relative w-64 h-64 sm:w-96 sm:h-96 opacity-10">
+                  <Image
+                    src="/fab-basic-logo.png"
+                    alt="FAB BASIC"
+                    fill
+                    className="object-contain brightness-0 invert"
+                  />
+                </div>
+              </div>
+            )}
+
+            {/* Bottom Vignette */}
             <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-navy-deep/80 to-transparent" />
 
-            {/* Slide Content */}
+            {/* Content */}
             <div className="relative z-20 h-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 flex flex-col justify-center">
               <div
                 className={`max-w-xl flex flex-col ${getAlignmentClasses(
@@ -144,26 +159,22 @@ export default function HeroCarousel({ banners }: HeroCarouselProps) {
                   isCurrent ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
                 }`}
               >
-                {/* Eyebrow */}
                 {banner.eyebrow && (
                   <span className="text-gold uppercase text-[11px] sm:text-xs tracking-widest font-semibold mb-3">
                     {banner.eyebrow}
                   </span>
                 )}
 
-                {/* Heading */}
                 <h1 className="text-3xl sm:text-5xl lg:text-6xl font-serif text-ivory font-light leading-[1.12] mb-4 tracking-tight">
                   {banner.title}
                 </h1>
 
-                {/* Subtitle */}
                 {banner.subtitle && (
                   <p className="text-ivory/80 text-sm sm:text-base font-light mb-8 max-w-md leading-relaxed">
                     {banner.subtitle}
                   </p>
                 )}
 
-                {/* CTA Button */}
                 <Link
                   href={banner.cta_link || "/collections"}
                   className="inline-flex items-center gap-3 px-6 sm:px-8 py-3.5 bg-gold hover:bg-gold-hover text-navy font-semibold text-xs sm:text-sm uppercase tracking-luxury rounded transition-all duration-300 shadow-lg hover:shadow-gold/20"
@@ -177,7 +188,7 @@ export default function HeroCarousel({ banners }: HeroCarouselProps) {
         );
       })}
 
-      {/* Navigation Arrows (Visible if > 1 slide) */}
+      {/* Navigation Arrows */}
       {totalBanners > 1 && (
         <div className="absolute inset-y-0 left-0 right-0 z-30 flex items-center justify-between px-4 sm:px-8 pointer-events-none">
           <button
@@ -197,7 +208,7 @@ export default function HeroCarousel({ banners }: HeroCarouselProps) {
         </div>
       )}
 
-      {/* Slide Indicators: 01  02  03 */}
+      {/* Indicators */}
       {totalBanners > 1 && (
         <div className="absolute bottom-6 sm:bottom-10 left-6 sm:left-12 z-30 flex items-center space-x-6 sm:space-x-8">
           {activeBanners.map((_, index) => {

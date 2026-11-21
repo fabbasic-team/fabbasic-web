@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Scissors } from "lucide-react";
 import { Product } from "@/types";
 import ProductCard from "@/components/product/ProductCard";
 
@@ -43,7 +43,7 @@ export default function BeyondTheOrdinary({
         ) : (
           /* Editorial Atmosphere Showcase when no products are tagged exclusive yet */
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-navy/60 p-8 sm:p-12 border border-navy-light/40 rounded-sm">
-            <div className="lg:col-span-7 space-y-6">
+            <div className="lg:col-span-8 space-y-6">
               <span className="text-xs uppercase tracking-luxury text-gold font-semibold">
                 Haute Tailoring Textiles
               </span>
@@ -61,13 +61,13 @@ export default function BeyondTheOrdinary({
                 <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
-            <div className="lg:col-span-5 relative aspect-[4/3] rounded overflow-hidden">
-              <Image
-                src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1000&q=80"
-                alt="Luxury suiting fabric"
-                fill
-                className="object-cover"
-              />
+            
+            <div className="lg:col-span-4 aspect-[4/3] rounded bg-navy-surface border border-navy-light flex flex-col items-center justify-center p-6 text-center space-y-3">
+              <div className="w-12 h-12 rounded-full border border-gold/40 flex items-center justify-center text-gold">
+                <Scissors className="w-5 h-5" />
+              </div>
+              <span className="font-serif text-lg text-ivory">Atelier Suiting Cuts</span>
+              <span className="text-[11px] text-gold uppercase tracking-luxury">STITCH • STYLE • ELEGANCE</span>
             </div>
           </div>
         )}

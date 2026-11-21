@@ -7,10 +7,10 @@ export default function AnnouncementBar({ settings }: { settings: StoreSettings 
   }
 
   const content = (
-    <div className="bg-navy-deep text-ivory text-xs tracking-luxury uppercase py-2 px-4 text-center font-medium border-b border-navy-light/40 flex items-center justify-center gap-3">
-      <span className="text-gold/80 text-[10px] hidden sm:inline">&lt;&lt;</span>
+    <div className="bg-[#0B1530] text-ivory/90 text-[11px] sm:text-[11.5px] tracking-luxury uppercase py-2 sm:py-2.5 px-4 text-center font-medium border-b border-navy-light/30 flex items-center justify-center gap-3 select-none">
+      <span className="text-gold/70 text-[10px] font-mono tracking-widest hidden sm:inline">&lt;&lt;</span>
       <span className="truncate">{settings.announcement_text}</span>
-      <span className="text-gold/80 text-[10px] hidden sm:inline">&gt;&gt;</span>
+      <span className="text-gold/70 text-[10px] font-mono tracking-widest hidden sm:inline">&gt;&gt;</span>
     </div>
   );
 

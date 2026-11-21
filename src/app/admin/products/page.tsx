@@ -283,19 +283,25 @@ export default function AdminProductsPage() {
               const primaryImg =
                 p.images?.find((i) => i.is_primary)?.image_url ||
                 p.images?.[0]?.image_url ||
-                "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=400&q=80";
+                null;
 
               return (
                 <tr key={p.id} className="hover:bg-slate-50/80 transition-colors">
                   <td className="py-3 px-4">
                     <div className="flex items-center gap-3">
-                      <div className="relative w-12 h-14 bg-slate-100 rounded border border-slate-200 overflow-hidden flex-shrink-0">
-                        <Image
-                          src={primaryImg}
-                          alt={p.title}
-                          fill
-                          className="object-cover"
-                        />
+                      <div className="relative w-12 h-14 bg-slate-100 rounded border border-slate-200 overflow-hidden flex-shrink-0 flex items-center justify-center">
+                        {primaryImg ? (
+                          <Image
+                            src={primaryImg}
+                            alt={p.title}
+                            fill
+                            className="object-cover"
+                          />
+                        ) : (
+                          <div className="w-full h-full bg-slate-100 flex flex-col items-center justify-center text-[10px] text-slate-400 font-serif">
+                            FB
+                          </div>
+                        )}
                       </div>
                       <div>
                         <span className="text-[10px] uppercase tracking-luxury text-gold font-bold block">

@@ -123,7 +123,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
                   const image =
                     product.images?.find((i) => i.is_primary)?.image_url ||
                     product.images?.[0]?.image_url ||
-                    "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=400&q=80";
+                    null;
 
                   return (
                     <Link
@@ -132,13 +132,19 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
                       onClick={onClose}
                       className="flex items-center gap-4 py-3 group hover:bg-beige-subtle/50 px-2 rounded transition-colors"
                     >
-                      <div className="relative w-14 h-16 bg-beige-subtle flex-shrink-0 overflow-hidden border border-beige-border">
-                        <Image
-                          src={image}
-                          alt={product.title}
-                          fill
-                          className="object-cover"
-                        />
+                      <div className="relative w-14 h-16 bg-beige-subtle flex-shrink-0 overflow-hidden border border-beige-border flex items-center justify-center">
+                        {image ? (
+                          <Image
+                            src={image}
+                            alt={product.title}
+                            fill
+                            className="object-cover"
+                          />
+                        ) : (
+                          <div className="w-full h-full bg-navy/5 flex items-center justify-center text-xs font-serif text-navy/40">
+                            FB
+                          </div>
+                        )}
                       </div>
                       <div className="flex-1">
                         <p className="text-[11px] text-gold uppercase tracking-subtle font-medium">

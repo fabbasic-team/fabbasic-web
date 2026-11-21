@@ -96,13 +96,19 @@ export default function CartDrawer() {
                   className="flex gap-4 p-3 bg-ivory border border-beige-border rounded-sm"
                 >
                   {/* Thumbnail */}
-                  <div className="relative w-20 h-24 bg-white flex-shrink-0 overflow-hidden border border-beige-border">
-                    <Image
-                      src={item.image}
-                      alt={item.title}
-                      fill
-                      className="object-cover"
-                    />
+                  <div className="relative w-20 h-24 bg-white flex-shrink-0 overflow-hidden border border-beige-border flex items-center justify-center">
+                    {item.image ? (
+                      <Image
+                        src={item.image}
+                        alt={item.title}
+                        fill
+                        className="object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-navy/5 flex items-center justify-center text-xs font-serif text-navy/40">
+                        FB
+                      </div>
+                    )}
                   </div>
 
                   {/* Details */}

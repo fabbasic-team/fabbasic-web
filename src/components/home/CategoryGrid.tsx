@@ -1,21 +1,19 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Scissors } from "lucide-react";
 import { Category } from "@/types";
 
 interface CategoryGridProps {
   categories: Category[];
 }
 
-// Fallback category definitions if admin has not yet added categories to Supabase
 const DEFAULT_CATEGORIES: Category[] = [
   {
     id: "1",
     name: "Shirting Fabrics",
     slug: "shirting-fabrics",
     description: "Egyptian Giza Cotton, Italian linens, and bespoke shirt weaves.",
-    image_url:
-      "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=800&q=80",
+    image_url: null,
     display_order: 1,
     is_active: true,
     is_nav_item: true,
@@ -27,8 +25,7 @@ const DEFAULT_CATEGORIES: Category[] = [
     name: "Suiting Fabrics",
     slug: "suiting-fabrics",
     description: "Refined worsted wools, tropical blends, and structured tailoring cuts.",
-    image_url:
-      "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=800&q=80",
+    image_url: null,
     display_order: 2,
     is_active: true,
     is_nav_item: true,
@@ -40,8 +37,7 @@ const DEFAULT_CATEGORIES: Category[] = [
     name: "Exclusive Luxury Suiting Fabrics",
     slug: "exclusive-luxury-suiting",
     description: "Super 130s to 180s wool, cashmere blends, and rare textile house cloth.",
-    image_url:
-      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=800&q=80",
+    image_url: null,
     display_order: 3,
     is_active: true,
     is_nav_item: true,
@@ -53,8 +49,7 @@ const DEFAULT_CATEGORIES: Category[] = [
     name: "Readymade",
     slug: "readymade",
     description: "Artisanal tailored kurtas, bandhgalas, and premium tailored essentials.",
-    image_url:
-      "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=800&q=80",
+    image_url: null,
     display_order: 4,
     is_active: true,
     is_nav_item: true,
@@ -66,8 +61,7 @@ const DEFAULT_CATEGORIES: Category[] = [
     name: "Dhoti / Veshti",
     slug: "dhoti-veshti",
     description: "Heritage South Indian pure cotton and silk border dhotis and veshtis.",
-    image_url:
-      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=800&q=80",
+    image_url: null,
     display_order: 5,
     is_active: true,
     is_nav_item: true,
@@ -79,8 +73,7 @@ const DEFAULT_CATEGORIES: Category[] = [
     name: "Accessories",
     slug: "accessories",
     description: "Mother-of-pearl buttons, silk pocket squares, and tailoring essentials.",
-    image_url:
-      "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=800&q=80",
+    image_url: null,
     display_order: 6,
     is_active: true,
     is_nav_item: true,
@@ -118,7 +111,7 @@ export default function CategoryGrid({ categories }: CategoryGridProps) {
               href={`/collections/${cat.slug}`}
               className="group flex flex-col bg-white border border-beige-border hover:border-gold/60 transition-all duration-300 overflow-hidden shadow-sm hover:shadow-md"
             >
-              {/* Category Image */}
+              {/* Category Image or Textured Monogram */}
               <div className="relative aspect-[4/5] w-full bg-beige-subtle overflow-hidden">
                 {cat.image_url ? (
                   <Image
@@ -129,9 +122,12 @@ export default function CategoryGrid({ categories }: CategoryGridProps) {
                     sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 16vw"
                   />
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center p-4 bg-navy-surface text-center">
-                    <span className="text-xs text-gold/80 font-serif tracking-wider uppercase">
-                      {cat.name}
+                  <div className="w-full h-full flex flex-col items-center justify-center p-4 bg-navy-surface text-center space-y-2 group-hover:bg-navy transition-colors">
+                    <div className="w-10 h-10 rounded-full border border-gold/40 flex items-center justify-center text-gold">
+                      <Scissors className="w-4 h-4" />
+                    </div>
+                    <span className="text-[10px] text-gold/80 uppercase tracking-widest font-mono">
+                      FAB BASIC
                     </span>
                   </div>
                 )}

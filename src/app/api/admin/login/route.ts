@@ -5,10 +5,12 @@ export async function POST(request: NextRequest) {
   try {
     const { email, password } = await request.json();
 
-    const expectedEmail = process.env.ADMIN_EMAIL;
-    const expectedPassword = process.env.ADMIN_PASSWORD;
+    const expectedEmail = process.env.ADMIN_EMAIL || "";
+    const expectedPassword = process.env.ADMIN_PASSWORD || "";
 
     if (
+      !expectedEmail ||
+      !expectedPassword ||
       email?.trim().toLowerCase() !== expectedEmail.toLowerCase() ||
       password !== expectedPassword
     ) {

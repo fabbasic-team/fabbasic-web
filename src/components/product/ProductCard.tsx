@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Heart, ShoppingBag } from "lucide-react";
+import { Heart, ShoppingBag, Scissors } from "lucide-react";
 import { Product } from "@/types";
 import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/context/WishlistContext";
@@ -18,8 +18,7 @@ export default function ProductCard({ product }: ProductCardProps) {
 
   const primaryImage =
     product.images?.find((img) => img.is_primary)?.image_url ||
-    product.images?.[0]?.image_url ||
-    "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=800&q=80";
+    product.images?.[0]?.image_url;
 
   const isFavorited = isInWishlist(product.id);
 
@@ -41,7 +40,7 @@ export default function ProductCard({ product }: ProductCardProps) {
       price: product.price,
       sellingUnit: product.selling_unit,
       quantity: product.min_order_qty || 1,
-      image: primaryImage,
+      image: primaryImage || "",
       brand: product.brand || undefined,
       composition: product.fabric_composition || undefined,
       width: product.fabric_width || undefined,
@@ -63,13 +62,27 @@ export default function ProductCard({ product }: ProductCardProps) {
       
       {/* Product Image Box */}
       <Link href={`/products/${product.slug}`} className="relative aspect-[3/4] w-full bg-beige-subtle overflow-hidden block">
-        <Image
-          src={primaryImage}
-          alt={product.title}
-          fill
-          className="object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
-          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-        />
+        {primaryImage ? (
+          <Image
+            src={primaryImage}
+            alt={product.title}
+            fill
+            className="object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
+            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+          />
+        ) : (
+          <div className="w-full h-full bg-navy-surface flex flex-col items-center justify-center p-4 text-center text-ivory">
+            <div className="w-10 h-10 rounded-full border border-gold/40 flex items-center justify-center text-gold mb-2">
+              <Scissors className="w-4 h-4" />
+            </div>
+            <span className="text-[10px] uppercase tracking-luxury text-gold font-mono">
+              FAB BASIC
+            </span>
+            <span className="text-xs text-ivory/70 line-clamp-1 mt-1 font-serif">
+              {product.fabric_type || "Fine Cloth"}
+            </span>
+          </div>
+        )}
 
         {/* Wishlist Button */}
         <button

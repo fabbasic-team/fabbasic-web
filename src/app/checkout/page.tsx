@@ -356,13 +356,19 @@ export default function CheckoutPage() {
                 <div className="divide-y divide-beige-border max-h-[350px] overflow-y-auto space-y-3">
                   {cart.map((item) => (
                     <div key={item.id} className="pt-3 flex gap-4">
-                      <div className="relative w-16 h-20 bg-beige-subtle flex-shrink-0 overflow-hidden border border-beige-border rounded">
-                        <Image
-                          src={item.image}
-                          alt={item.title}
-                          fill
-                          className="object-cover"
-                        />
+                      <div className="relative w-16 h-20 bg-beige-subtle flex-shrink-0 overflow-hidden border border-beige-border rounded flex items-center justify-center">
+                        {item.image ? (
+                          <Image
+                            src={item.image}
+                            alt={item.title}
+                            fill
+                            className="object-cover"
+                          />
+                        ) : (
+                          <div className="w-full h-full bg-navy/5 flex items-center justify-center text-xs font-serif text-navy/40">
+                            FB
+                          </div>
+                        )}
                       </div>
                       <div className="flex-1 text-xs">
                         <p className="font-medium text-navy line-clamp-1">{item.title}</p>

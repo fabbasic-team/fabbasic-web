@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Scissors, Sparkles, ShieldCheck } from "lucide-react";
 
 export default function EditorialFeature() {
   return (
@@ -8,16 +8,41 @@ export default function EditorialFeature() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           
-          {/* Visual Column */}
+          {/* Visual Column: Atelier & Tailoring Heritage Motif */}
           <div className="lg:col-span-7 relative">
-            <div className="relative aspect-[4/3] sm:aspect-[16/11] w-full overflow-hidden shadow-xl border border-beige-border bg-white">
-              <Image
-                src="https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=1200&q=80"
-                alt="The Art of Fine Fabric - Tailoring Heritage"
-                fill
-                className="object-cover"
-                sizes="(max-width: 1024px) 100vw, 60vw"
-              />
+            <div className="relative aspect-[4/3] sm:aspect-[16/11] w-full overflow-hidden shadow-xl border border-beige-border bg-navy-deep flex flex-col justify-between p-8 sm:p-12 text-ivory">
+              <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#B99A59_1px,transparent_1px)] [background-size:20px_20px]" />
+              
+              <div className="relative z-10 flex items-center justify-between">
+                <span className="text-xs uppercase tracking-luxury text-gold font-mono font-bold">
+                  Bespoke Cloth House
+                </span>
+                <div className="w-8 h-8 rounded-full border border-gold/40 flex items-center justify-center text-gold">
+                  <Scissors className="w-4 h-4" />
+                </div>
+              </div>
+
+              <div className="relative z-10 space-y-3 max-w-md">
+                <div className="relative w-36 h-10">
+                  <Image
+                    src="/fab-basic-logo.png"
+                    alt="FAB BASIC"
+                    fill
+                    className="object-contain object-left brightness-0 invert"
+                  />
+                </div>
+                <h3 className="text-2xl sm:text-3xl font-serif font-light text-ivory leading-snug">
+                  Precision in Every Metre. Elegance in Every Thread.
+                </h3>
+              </div>
+
+              <div className="relative z-10 flex items-center gap-6 pt-4 border-t border-navy-light/60 text-xs text-ivory/60">
+                <span>100% Certified Mills</span>
+                <span>•</span>
+                <span>Pinking Shear Cut</span>
+                <span>•</span>
+                <span>Heirloom Weaves</span>
+              </div>
             </div>
             {/* Elegant accent border offset */}
             <div className="absolute -bottom-4 -right-4 w-full h-full border border-gold/40 -z-10 hidden sm:block" />
