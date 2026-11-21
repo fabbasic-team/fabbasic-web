@@ -7,8 +7,8 @@ import { Lock, Mail, Loader2, ArrowRight, ShieldCheck } from "lucide-react";
 
 export default function AdminLoginPage() {
   const router = useRouter();
-  const [email, setEmail] = useState("najmal@fabbasic.com");
-  const [password, setPassword] = useState("88997766@123");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -90,7 +90,7 @@ export default function AdminLoginPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  placeholder="najmal@fabbasic.com"
+                  placeholder="admin@fabbasic.com"
                   className="w-full pl-10 pr-4 py-2.5 bg-navy-deep/90 border border-navy-light text-ivory text-sm rounded focus:outline-none focus:border-gold transition-colors"
                 />
               </div>

@@ -32,8 +32,7 @@ An ultra-premium, production-ready fabric e-commerce platform and editorial Cont
 ### 3. Comprehensive Admin CMS Dashboard
 - **URL**: `/admin` (Protected route)
 - **Login**: `/admin/login`
-  - **Email**: `najmal@fabbasic.com`
-  - **Password**: `88997766@123`
+  - **Credentials**: Configured in `.env.local`
 - **Modules**:
   - 📊 **Overview**: Real KPI statistics (Products, Active Banners, Categories, Orders, Verified Revenue, Pending Shipments).
   - 🖼️ **Hero Banners**: Upload and manage up to 3 hero banners with separate desktop landscape and mobile portrait uploads to Cloudinary, headings, subheadings, CTA buttons, text alignment, and overlay darkness sliders.

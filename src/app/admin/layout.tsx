@@ -182,7 +182,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             className="w-full flex items-center gap-2 px-3.5 py-2.5 rounded text-xs text-red-300 hover:bg-red-950/40 hover:text-red-200 transition-colors"
           >
             <LogOut className="w-4 h-4" />
-            <span>Sign Out (najmal@fabbasic.com)</span>
+            <span>Sign Out</span>
           </button>
         </div>
       </aside>
@@ -213,7 +213,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
             <div className="text-right pl-4 border-l border-slate-200">
               <span className="text-xs font-semibold text-slate-800 block">
-                najmal@fabbasic.com
+                Administrator
               </span>
               <span className="text-[10px] text-emerald-600 font-medium">
                 Super Administrator
