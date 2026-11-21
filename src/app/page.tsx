@@ -32,9 +32,9 @@ export default async function HomePage() {
     getStoreSettings(),
     getHomepageBanners(),
     getCategories(),
-    getLatestProducts(8),
+    getLatestProducts(24),
     getFeaturedProducts(8),
-    getExclusiveProducts(4),
+    getExclusiveProducts(6),
   ]);
 
   return (
@@ -45,8 +45,8 @@ export default async function HomePage() {
       {/* Explore Our Collections: 6 Primary Category Showcase */}
       <CategoryGrid categories={categories} />
 
-      {/* The Latest Edit: Recently Added Fabric Selections */}
-      <TheLatestEdit products={latestProducts} />
+      {/* The Latest Edit: Interactive Category Filter Tabs & Fabric Metre Selections */}
+      <TheLatestEdit products={latestProducts} categories={categories} />
 
       {/* Editorial Feature: The Art of Fine Fabric */}
       <EditorialFeature settings={settings} />

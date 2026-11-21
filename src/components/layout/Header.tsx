@@ -149,20 +149,13 @@ export default function Header({ categories, settings, onOpenSearch }: HeaderPro
                 >
                   <Link
                     href={`/collections/${cat.slug}`}
-                    className={`text-[13.5px] xl:text-[14px] font-medium transition-colors duration-200 py-2 flex items-center gap-1.5 whitespace-nowrap ${
+                    className={`text-[13.5px] xl:text-[14px] font-medium transition-colors duration-200 py-2 flex items-center whitespace-nowrap ${
                       isActive || isHovered
                         ? "text-gold font-semibold"
                         : "text-navy hover:text-gold"
                     }`}
                   >
                     <span>{cat.name}</span>
-                    {submenu && (
-                      <ChevronDown
-                        className={`w-3.5 h-3.5 text-navy/40 group-hover:text-gold transition-transform duration-200 ${
-                          isHovered ? "rotate-180 text-gold" : ""
-                        }`}
-                      />
-                    )}
                   </Link>
 
                   {/* Active Route Indicator Line */}

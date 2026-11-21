@@ -28,6 +28,65 @@ export default function AdminProductsPage() {
   const [editingProduct, setEditingProduct] = useState<any | null>(null);
   const [uploadingImage, setUploadingImage] = useState(false);
   const [saveStatus, setSaveStatus] = useState<string | null>(null);
+  const [uploadingProductId, setUploadingProductId] = useState<string | null>(null);
+  const [uploadedSuccessId, setUploadedSuccessId] = useState<string | null>(null);
+
+  const handleDirectUpload = async (productId: string, file: File) => {
+    setUploadingProductId(productId);
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("folder", "fab-basic/products");
+
+      const uploadRes = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+      const uploadData = await uploadRes.json();
+      if (!uploadRes.ok || !uploadData.url) {
+        throw new Error(uploadData.error || "Failed to upload image");
+      }
+
+      const saveRes = await fetch("/api/admin/products/image", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          productId,
+          imageUrl: uploadData.url,
+          imagePublicId: uploadData.public_id,
+          isPrimary: true,
+        }),
+      });
+      const saveData = await saveRes.json();
+      if (!saveRes.ok) {
+        throw new Error(saveData.error || "Failed to attach image to product");
+      }
+
+      // Update local products list immediately
+      setProducts((prev) =>
+        prev.map((prod) => {
+          if (prod.id === productId) {
+            const currentImages = prod.images || [];
+            return {
+              ...prod,
+              images: [
+                saveData.image,
+                ...currentImages.filter((img) => img.id !== saveData.image.id),
+              ],
+            };
+          }
+          return prod;
+        })
+      );
+
+      setUploadedSuccessId(productId);
+      setTimeout(() => setUploadedSuccessId(null), 3000);
+    } catch (err: any) {
+      alert(err.message || "Error uploading image");
+    } finally {
+      setUploadingProductId(null);
+    }
+  };
 
   const fetchData = async () => {
     try {
@@ -230,6 +289,36 @@ export default function AdminProductsPage() {
         </button>
       </div>
 
+      {/* Category Quick Filter Pills */}
+      <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
+        <button
+          onClick={() => setFilterCategory("")}
+          className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors whitespace-nowrap ${
+            !filterCategory
+              ? "bg-navy text-gold shadow-sm font-semibold"
+              : "bg-white text-slate-600 hover:bg-slate-100 border border-slate-200"
+          }`}
+        >
+          All Categories ({products.length})
+        </button>
+        {categories.map((c) => {
+          const count = products.filter((p) => p.category_id === c.id).length;
+          return (
+            <button
+              key={c.id}
+              onClick={() => setFilterCategory(c.id)}
+              className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors whitespace-nowrap ${
+                filterCategory === c.id
+                  ? "bg-navy text-gold shadow-sm font-semibold"
+                  : "bg-white text-slate-600 hover:bg-slate-100 border border-slate-200"
+              }`}
+            >
+              {c.name} ({count})
+            </button>
+          );
+        })}
+      </div>
+
       {/* Filter and Search Bar */}
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white p-4 rounded-lg border border-slate-200 shadow-sm">
         <div className="relative w-full sm:w-80">
@@ -268,7 +357,7 @@ export default function AdminProductsPage() {
         <table className="min-w-full divide-y divide-slate-200 text-left text-xs text-slate-600">
           <thead className="bg-slate-50 text-[11px] uppercase tracking-wider font-semibold text-slate-500">
             <tr>
-              <th className="py-3.5 px-4">Fabric</th>
+              <th className="py-3.5 px-4 min-w-[280px]">Fabric &amp; Photography</th>
               <th className="py-3.5 px-4">Category</th>
               <th className="py-3.5 px-4">Price / Unit</th>
               <th className="py-3.5 px-4">Stock</th>
@@ -289,30 +378,86 @@ export default function AdminProductsPage() {
                 <tr key={p.id} className="hover:bg-slate-50/80 transition-colors">
                   <td className="py-3 px-4">
                     <div className="flex items-center gap-3">
-                      <div className="relative w-12 h-14 bg-slate-100 rounded border border-slate-200 overflow-hidden flex-shrink-0 flex items-center justify-center">
-                        {primaryImg ? (
-                          <Image
-                            src={primaryImg}
-                            alt={p.title}
-                            fill
-                            className="object-cover"
-                          />
-                        ) : (
-                          <div className="w-full h-full bg-slate-100 flex flex-col items-center justify-center text-[10px] text-slate-400 font-serif">
-                            FB
+                      {/* Direct 1-Click Upload Thumbnail */}
+                      <div className="relative group w-14 h-16 bg-slate-100 rounded border border-slate-200 overflow-hidden flex-shrink-0 flex items-center justify-center shadow-xs">
+                        {uploadingProductId === p.id ? (
+                          <div className="w-full h-full bg-navy/90 flex flex-col items-center justify-center text-white p-1">
+                            <Loader2 className="w-5 h-5 animate-spin text-gold" />
+                            <span className="text-[8px] font-medium mt-1">Uploading</span>
                           </div>
+                        ) : primaryImg ? (
+                          <>
+                            <Image
+                              src={primaryImg}
+                              alt={p.title}
+                              fill
+                              className="object-cover"
+                            />
+                            <label className="absolute inset-0 bg-navy/70 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center text-white cursor-pointer">
+                              <Upload className="w-3.5 h-3.5 text-gold" />
+                              <span className="text-[8px] font-medium mt-0.5">Change</span>
+                              <input
+                                type="file"
+                                accept="image/*"
+                                className="hidden"
+                                onChange={(e) => {
+                                  const file = e.target.files?.[0];
+                                  if (file) handleDirectUpload(p.id, file);
+                                }}
+                              />
+                            </label>
+                          </>
+                        ) : (
+                          <label className="w-full h-full flex flex-col items-center justify-center bg-amber-50/60 hover:bg-amber-100/80 border border-dashed border-amber-300 rounded cursor-pointer transition-colors p-1 text-center">
+                            <Upload className="w-4 h-4 text-amber-700" />
+                            <span className="text-[8px] font-semibold text-amber-800 mt-0.5 leading-tight">
+                              + Photo
+                            </span>
+                            <input
+                              type="file"
+                              accept="image/*"
+                              className="hidden"
+                              onChange={(e) => {
+                                const file = e.target.files?.[0];
+                                if (file) handleDirectUpload(p.id, file);
+                              }}
+                            />
+                          </label>
                         )}
                       </div>
-                      <div>
+
+                      <div className="flex-1 min-w-0">
                         <span className="text-[10px] uppercase tracking-luxury text-gold font-bold block">
                           {p.brand || "FAB BASIC"}
                         </span>
                         <span className="font-medium text-slate-900 block line-clamp-1">
                           {p.title}
                         </span>
-                        <span className="text-[10px] text-slate-400 font-mono">
-                          {p.sku}
-                        </span>
+                        
+                        <div className="flex items-center gap-2 mt-1">
+                          <span className="text-[10px] text-slate-400 font-mono">
+                            {p.sku}
+                          </span>
+                          {uploadedSuccessId === p.id && (
+                            <span className="text-[10px] text-emerald-600 font-medium flex items-center gap-0.5 animate-pulse">
+                              <Check className="w-3 h-3" /> Photo Saved!
+                            </span>
+                          )}
+                          {!primaryImg && uploadingProductId !== p.id && (
+                            <label className="text-[10px] text-blue-600 hover:text-blue-800 font-medium cursor-pointer underline flex items-center gap-1">
+                              <Upload className="w-2.5 h-2.5" /> 1-Click Upload
+                              <input
+                                type="file"
+                                accept="image/*"
+                                className="hidden"
+                                onChange={(e) => {
+                                  const file = e.target.files?.[0];
+                                  if (file) handleDirectUpload(p.id, file);
+                                }}
+                              />
+                            </label>
+                          )}
+                        </div>
                       </div>
                     </div>
                   </td>

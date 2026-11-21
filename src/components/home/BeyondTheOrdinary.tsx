@@ -62,63 +62,83 @@ export default function BeyondTheOrdinary({
           </p>
         </div>
 
-        {/* Content */}
-        {products.length > 0 ? (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
-            {products.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
+        {/* Editorial Atmosphere Showcase Banner */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-navy/60 p-8 sm:p-12 border border-navy-light/40 rounded-sm mb-12">
+          <div className="lg:col-span-8 space-y-6">
+            <span className="text-xs uppercase tracking-luxury text-gold font-semibold">
+              {cardEyebrow}
+            </span>
+            <h3 className="text-2xl sm:text-4xl font-serif text-ivory font-light leading-tight">
+              {cardTitle}
+            </h3>
+            <p className="text-sm text-ivory/70 leading-relaxed max-w-xl font-light">
+              {cardDescription}
+            </p>
+            <Link
+              href={ctaLink}
+              className="inline-flex items-center gap-3 px-6 py-3 bg-gold hover:bg-gold-hover text-navy text-xs font-semibold uppercase tracking-luxury transition-colors shadow-md"
+            >
+              <span>{ctaText}</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
           </div>
-        ) : (
-          /* Editorial Atmosphere Showcase */
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-navy/60 p-8 sm:p-12 border border-navy-light/40 rounded-sm">
-            <div className="lg:col-span-8 space-y-6">
-              <span className="text-xs uppercase tracking-luxury text-gold font-semibold">
-                {cardEyebrow}
-              </span>
-              <h3 className="text-2xl sm:text-4xl font-serif text-ivory font-light leading-tight">
-                {cardTitle}
-              </h3>
-              <p className="text-sm text-ivory/70 leading-relaxed max-w-xl font-light">
-                {cardDescription}
-              </p>
+          
+          {/* Visual Card on the right */}
+          <div className="lg:col-span-4 aspect-[4/3] rounded bg-navy-surface border border-navy-light relative overflow-hidden flex flex-col items-center justify-center p-6 text-center space-y-3 shadow-md group">
+            {imageUrl ? (
+              <>
+                <Image
+                  src={imageUrl}
+                  alt={badgeTitle}
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-navy-deep/90 via-navy-deep/50 to-transparent" />
+                <div className="relative z-10 space-y-2">
+                  <div className="w-10 h-10 rounded-full border border-gold/40 bg-navy/50 backdrop-blur-xs flex items-center justify-center text-gold mx-auto">
+                    <Scissors className="w-4 h-4" />
+                  </div>
+                  <span className="font-serif text-lg text-ivory block font-light">{badgeTitle}</span>
+                  <span className="text-[10px] text-gold uppercase tracking-luxury block">{badgeSubtitle}</span>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="w-12 h-12 rounded-full border border-gold/40 flex items-center justify-center text-gold">
+                  <Scissors className="w-5 h-5" />
+                </div>
+                <span className="font-serif text-lg text-ivory font-light">{badgeTitle}</span>
+                <span className="text-[11px] text-gold uppercase tracking-luxury">{badgeSubtitle}</span>
+              </>
+            )}
+          </div>
+        </div>
+
+        {/* Exclusive Luxury Suiting Products (if available) */}
+        {products && products.length > 0 && (
+          <div className="pt-4">
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <p className="text-[11px] uppercase tracking-widest text-gold font-semibold">
+                  Curated Atelier Bolts
+                </p>
+                <h3 className="text-xl sm:text-2xl font-serif text-ivory font-light">
+                  Available by the Metre
+                </h3>
+              </div>
               <Link
-                href={ctaLink}
-                className="inline-flex items-center gap-3 px-6 py-3 bg-gold hover:bg-gold-hover text-navy text-xs font-semibold uppercase tracking-luxury transition-colors shadow-md"
+                href="/collections/exclusive-luxury-suiting"
+                className="text-xs uppercase tracking-luxury text-gold hover:text-ivory transition-colors flex items-center gap-1.5"
               >
-                <span>{ctaText}</span>
-                <ArrowRight className="w-4 h-4" />
+                <span>View All Exclusive</span>
+                <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </div>
             
-            {/* Visual Card on the right */}
-            <div className="lg:col-span-4 aspect-[4/3] rounded bg-navy-surface border border-navy-light relative overflow-hidden flex flex-col items-center justify-center p-6 text-center space-y-3 shadow-md group">
-              {imageUrl ? (
-                <>
-                  <Image
-                    src={imageUrl}
-                    alt={badgeTitle}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-navy-deep/90 via-navy-deep/50 to-transparent" />
-                  <div className="relative z-10 space-y-2">
-                    <div className="w-10 h-10 rounded-full border border-gold/40 bg-navy/50 backdrop-blur-xs flex items-center justify-center text-gold mx-auto">
-                      <Scissors className="w-4 h-4" />
-                    </div>
-                    <span className="font-serif text-lg text-ivory block font-light">{badgeTitle}</span>
-                    <span className="text-[10px] text-gold uppercase tracking-luxury block">{badgeSubtitle}</span>
-                  </div>
-                </>
-              ) : (
-                <>
-                  <div className="w-12 h-12 rounded-full border border-gold/40 flex items-center justify-center text-gold">
-                    <Scissors className="w-5 h-5" />
-                  </div>
-                  <span className="font-serif text-lg text-ivory font-light">{badgeTitle}</span>
-                  <span className="text-[11px] text-gold uppercase tracking-luxury">{badgeSubtitle}</span>
-                </>
-              )}
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+              {products.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
             </div>
           </div>
         )}
