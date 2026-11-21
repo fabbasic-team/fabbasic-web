@@ -256,10 +256,30 @@ export default function AdminDashboardPage() {
       </div>
 
       {/* Quick Access Control Modules */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         
-        {/* Module 1: Hero Banners */}
-        <div className="p-6 bg-white border border-slate-200 rounded-lg shadow-sm space-y-4">
+        {/* Module 1: Categories / Explore Our Collections */}
+        <div className="p-6 bg-white border border-slate-200 rounded-lg shadow-sm space-y-4 hover:border-gold/60 transition-colors">
+          <div className="w-10 h-10 rounded-lg bg-navy/5 text-navy flex items-center justify-center">
+            <FolderTree className="w-5 h-5 text-gold" />
+          </div>
+          <div>
+            <h3 className="text-base font-semibold text-slate-900">Homepage Collections</h3>
+            <p className="text-xs text-slate-500 mt-1 leading-relaxed">
+              1-click upload cover photography for the 6 primary homepage collections: Shirting, Suiting, Luxury Suiting, Readymade, Dhoti/Veshti, and Accessories.
+            </p>
+          </div>
+          <Link
+            href="/admin/categories"
+            className="inline-flex items-center gap-1.5 text-xs font-semibold text-navy hover:text-gold uppercase tracking-luxury transition-colors"
+          >
+            <span>Upload 6 Collection Covers</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
+        </div>
+
+        {/* Module 2: Hero Banners */}
+        <div className="p-6 bg-white border border-slate-200 rounded-lg shadow-sm space-y-4 hover:border-gold/60 transition-colors">
           <div className="w-10 h-10 rounded-lg bg-navy/5 text-navy flex items-center justify-center">
             <ImageIcon className="w-5 h-5 text-gold" />
           </div>
@@ -278,8 +298,8 @@ export default function AdminDashboardPage() {
           </Link>
         </div>
 
-        {/* Module 2: Products */}
-        <div className="p-6 bg-white border border-slate-200 rounded-lg shadow-sm space-y-4">
+        {/* Module 3: Products */}
+        <div className="p-6 bg-white border border-slate-200 rounded-lg shadow-sm space-y-4 hover:border-gold/60 transition-colors">
           <div className="w-10 h-10 rounded-lg bg-navy/5 text-navy flex items-center justify-center">
             <Scissors className="w-5 h-5 text-gold" />
           </div>
@@ -298,8 +318,8 @@ export default function AdminDashboardPage() {
           </Link>
         </div>
 
-        {/* Module 3: CMS & Settings */}
-        <div className="p-6 bg-white border border-slate-200 rounded-lg shadow-sm space-y-4">
+        {/* Module 4: CMS & Settings */}
+        <div className="p-6 bg-white border border-slate-200 rounded-lg shadow-sm space-y-4 hover:border-gold/60 transition-colors">
           <div className="w-10 h-10 rounded-lg bg-navy/5 text-navy flex items-center justify-center">
             <CheckCircle2 className="w-5 h-5 text-gold" />
           </div>
