@@ -55,7 +55,7 @@ export default async function HomePage() {
       <TheSignatureSelection products={featuredProducts} />
 
       {/* Beyond the Ordinary: Exclusive Luxury Suiting */}
-      <BeyondTheOrdinary products={exclusiveProducts} />
+      <BeyondTheOrdinary products={exclusiveProducts} settings={settings} />
 
       {/* Brand Heritage Story: A Tradition of Style. A Standard of Quality. */}
       <BrandStory settings={settings} />

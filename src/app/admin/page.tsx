@@ -337,6 +337,12 @@ export default function AdminDashboardPage() {
               <span>The Art of Fine Fabric →</span>
             </Link>
             <Link
+              href="/admin/settings#exclusive-feature"
+              className="inline-flex items-center gap-1.5 text-xs font-semibold text-gold-muted hover:text-navy uppercase tracking-luxury transition-colors block"
+            >
+              <span>Beyond the Ordinary →</span>
+            </Link>
+            <Link
               href="/admin/settings"
               className="inline-flex items-center gap-1.5 text-[11px] font-medium text-slate-500 hover:text-navy transition-colors block"
             >

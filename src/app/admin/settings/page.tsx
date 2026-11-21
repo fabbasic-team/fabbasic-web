@@ -14,8 +14,9 @@ import {
   Sparkles,
   Scissors,
   Trash2,
+  Crown,
 } from "lucide-react";
-import { StoreSettings, EditorialFeatureSettings } from "@/types";
+import { StoreSettings, EditorialFeatureSettings, ExclusiveFeatureSettings } from "@/types";
 
 const DEFAULT_EDITORIAL: EditorialFeatureSettings = {
   is_active: true,
@@ -34,12 +35,31 @@ const DEFAULT_EDITORIAL: EditorialFeatureSettings = {
   cta_link: "/collections",
 };
 
+const DEFAULT_EXCLUSIVE: ExclusiveFeatureSettings = {
+  is_active: true,
+  image_url: null,
+  image_public_id: null,
+  section_eyebrow: "EXCLUSIVE LUXURY SUITING",
+  section_heading: "Beyond the Ordinary",
+  section_subheading: "Discover exceptional fabrics selected for discerning tastes.",
+  card_eyebrow: "Haute Tailoring Textiles",
+  card_title: "Super 150s Worsted Wools, Cashmere Blends & Noble Silks",
+  card_description:
+    "Each cut in our exclusive collection is sourced directly from prestigious European and master Indian mills. Reserved for the pinnacle of bespoke suiting, ceremonial tuxedos, and tailored eveningwear.",
+  cta_text: "Request Bespoke Fabric Swatches",
+  cta_link: "/collections/exclusive-luxury-suiting",
+  badge_title: "Atelier Suiting Cuts",
+  badge_subtitle: "STITCH • STYLE • ELEGANCE",
+};
+
 export default function AdminSettingsPage() {
   const [settings, setSettings] = useState<Partial<StoreSettings>>({});
   const [editorial, setEditorial] = useState<EditorialFeatureSettings>(DEFAULT_EDITORIAL);
+  const [exclusive, setExclusive] = useState<ExclusiveFeatureSettings>(DEFAULT_EXCLUSIVE);
   const [loading, setLoading] = useState(true);
   const [saveStatus, setSaveStatus] = useState<string | null>(null);
-  const [uploadingImage, setUploadingImage] = useState(false);
+  const [uploadingEditorialImage, setUploadingEditorialImage] = useState(false);
+  const [uploadingExclusiveImage, setUploadingExclusiveImage] = useState(false);
 
   useEffect(() => {
     fetch("/api/admin/settings")
@@ -53,13 +73,19 @@ export default function AdminSettingsPage() {
               ...data.settings.editorial_feature,
             });
           }
+          if (data.settings.exclusive_feature) {
+            setExclusive({
+              ...DEFAULT_EXCLUSIVE,
+              ...data.settings.exclusive_feature,
+            });
+          }
         }
       })
       .finally(() => setLoading(false));
   }, []);
 
   const handleEditorialImageUpload = async (file: File) => {
-    setUploadingImage(true);
+    setUploadingEditorialImage(true);
     try {
       const formData = new FormData();
       formData.append("file", file);
@@ -83,7 +109,36 @@ export default function AdminSettingsPage() {
     } catch (err: any) {
       alert(err.message || "Upload error");
     } finally {
-      setUploadingImage(false);
+      setUploadingEditorialImage(false);
+    }
+  };
+
+  const handleExclusiveImageUpload = async (file: File) => {
+    setUploadingExclusiveImage(true);
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("folder", "fab-basic/exclusive");
+
+      const res = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await res.json();
+      if (res.ok && data.url) {
+        setExclusive((prev) => ({
+          ...prev,
+          image_url: data.url,
+          image_public_id: data.public_id,
+        }));
+      } else {
+        alert(data.error || "Failed to upload image");
+      }
+    } catch (err: any) {
+      alert(err.message || "Upload error");
+    } finally {
+      setUploadingExclusiveImage(false);
     }
   };
 
@@ -95,6 +150,7 @@ export default function AdminSettingsPage() {
       const payload = {
         ...settings,
         editorial_feature: editorial,
+        exclusive_feature: exclusive,
       };
 
       const res = await fetch("/api/admin/settings", {
@@ -134,7 +190,7 @@ export default function AdminSettingsPage() {
           Website CMS &amp; Store Settings
         </h1>
         <p className="text-sm text-slate-500 mt-1">
-          Manage announcements, editorial showcases, brand story, client contacts, and store preferences.
+          Manage announcements, editorial showcases, luxury suiting features, brand story, and store preferences.
         </p>
       </div>
 
@@ -162,7 +218,7 @@ export default function AdminSettingsPage() {
           </div>
 
           <p className="text-xs text-slate-500">
-            Upload custom editorial photography and manage headlines, story copy, and call-to-action buttons for the prominent homepage feature section.
+            Upload custom editorial photography and manage headlines, story copy, and call-to-action buttons for &ldquo;The Art of Fine Fabric&rdquo;.
           </p>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
@@ -206,7 +262,7 @@ export default function AdminSettingsPage() {
                 </div>
               ) : (
                 <label className="flex flex-col items-center justify-center w-full aspect-[4/3] border-2 border-dashed border-slate-300 hover:border-gold rounded-lg cursor-pointer bg-slate-50 transition-colors p-4 text-center">
-                  {uploadingImage ? (
+                  {uploadingEditorialImage ? (
                     <div className="flex flex-col items-center gap-2 text-slate-500 text-xs">
                       <Loader2 className="w-6 h-6 animate-spin text-gold" />
                       <span className="font-medium">Uploading to Cloudinary...</span>
@@ -223,7 +279,7 @@ export default function AdminSettingsPage() {
                   <input
                     type="file"
                     accept="image/*"
-                    disabled={uploadingImage}
+                    disabled={uploadingEditorialImage}
                     className="hidden"
                     onChange={(e) => {
                       if (e.target.files?.[0]) handleEditorialImageUpload(e.target.files[0]);
@@ -369,7 +425,254 @@ export default function AdminSettingsPage() {
           </div>
         </div>
 
-        {/* SECTION 2: ANNOUNCEMENT BAR */}
+        {/* SECTION 2: EXCLUSIVE LUXURY SUITING - BEYOND THE ORDINARY */}
+        <div id="exclusive-feature" className="p-6 sm:p-7 bg-white border border-slate-200 rounded-xl shadow-sm space-y-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
+            <div className="flex items-center gap-2">
+              <Crown className="w-5 h-5 text-gold" />
+              <h2 className="text-lg font-serif text-slate-900 font-semibold tracking-tight">
+                Exclusive Luxury Suiting Showcase (&ldquo;Beyond the Ordinary&rdquo;)
+              </h2>
+            </div>
+            
+            <label className="flex items-center gap-2 text-xs font-semibold text-slate-800 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={exclusive.is_active}
+                onChange={(e) => setExclusive({ ...exclusive, is_active: e.target.checked })}
+                className="w-4 h-4 text-navy rounded border-slate-300"
+              />
+              <span>Section Visible on Homepage</span>
+            </label>
+          </div>
+
+          <p className="text-xs text-slate-500">
+            Customize the editorial suiting showcase, headlines, description copy, button CTA, and upload the right-hand atelier suiting cover image.
+          </p>
+
+          {/* Section Header Controls */}
+          <div className="bg-slate-50 p-4 rounded-lg border border-slate-200 space-y-3">
+            <span className="text-[11px] font-semibold uppercase tracking-luxury text-gold block">
+              Section Header Details
+            </span>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div>
+                <label className="block text-[11px] uppercase tracking-luxury font-medium text-slate-600 mb-1">
+                  Section Eyebrow
+                </label>
+                <input
+                  type="text"
+                  value={exclusive.section_eyebrow || ""}
+                  onChange={(e) => setExclusive({ ...exclusive, section_eyebrow: e.target.value })}
+                  placeholder="EXCLUSIVE LUXURY SUITING"
+                  className="w-full px-3 py-1.5 bg-white border border-slate-300 text-xs rounded focus:outline-none focus:border-gold"
+                />
+              </div>
+
+              <div>
+                <label className="block text-[11px] uppercase tracking-luxury font-medium text-slate-600 mb-1">
+                  Section Title *
+                </label>
+                <input
+                  type="text"
+                  value={exclusive.section_heading || ""}
+                  onChange={(e) => setExclusive({ ...exclusive, section_heading: e.target.value })}
+                  placeholder="Beyond the Ordinary"
+                  className="w-full px-3 py-1.5 bg-white border border-slate-300 text-xs font-serif rounded focus:outline-none focus:border-gold"
+                />
+              </div>
+
+              <div>
+                <label className="block text-[11px] uppercase tracking-luxury font-medium text-slate-600 mb-1">
+                  Section Subtitle
+                </label>
+                <input
+                  type="text"
+                  value={exclusive.section_subheading || ""}
+                  onChange={(e) => setExclusive({ ...exclusive, section_subheading: e.target.value })}
+                  placeholder="Discover exceptional fabrics selected for discerning tastes."
+                  className="w-full px-3 py-1.5 bg-white border border-slate-300 text-xs rounded focus:outline-none focus:border-gold"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Atmosphere Showcase Content & Right Image */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start pt-2">
+            
+            {/* Left Card Copy (7 Cols) */}
+            <div className="lg:col-span-7 space-y-4">
+              <span className="text-xs uppercase tracking-luxury font-semibold text-slate-700 block">
+                Atmosphere Story Card
+              </span>
+
+              <div>
+                <label className="block text-[11px] uppercase tracking-luxury font-medium text-slate-600 mb-1">
+                  Card Eyebrow Tag
+                </label>
+                <input
+                  type="text"
+                  value={exclusive.card_eyebrow || ""}
+                  onChange={(e) => setExclusive({ ...exclusive, card_eyebrow: e.target.value })}
+                  placeholder="Haute Tailoring Textiles"
+                  className="w-full px-3.5 py-2 bg-slate-50 border border-slate-300 text-xs rounded focus:outline-none focus:border-gold"
+                />
+              </div>
+
+              <div>
+                <label className="block text-[11px] uppercase tracking-luxury font-medium text-slate-600 mb-1">
+                  Card Headline Title *
+                </label>
+                <input
+                  type="text"
+                  value={exclusive.card_title || ""}
+                  onChange={(e) => setExclusive({ ...exclusive, card_title: e.target.value })}
+                  placeholder="Super 150s Worsted Wools, Cashmere Blends & Noble Silks"
+                  className="w-full px-3.5 py-2 bg-slate-50 border border-slate-300 text-sm font-serif rounded focus:outline-none focus:border-gold"
+                />
+              </div>
+
+              <div>
+                <label className="block text-[11px] uppercase tracking-luxury font-medium text-slate-600 mb-1">
+                  Card Story Description
+                </label>
+                <textarea
+                  rows={4}
+                  value={exclusive.card_description || ""}
+                  onChange={(e) => setExclusive({ ...exclusive, card_description: e.target.value })}
+                  placeholder="Each cut in our exclusive collection is sourced directly from prestigious European and master Indian mills..."
+                  className="w-full px-3.5 py-2 bg-slate-50 border border-slate-300 text-xs rounded focus:outline-none focus:border-gold leading-relaxed"
+                />
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-[11px] uppercase tracking-luxury font-medium text-slate-600 mb-1">
+                    CTA Button Text
+                  </label>
+                  <input
+                    type="text"
+                    value={exclusive.cta_text || ""}
+                    onChange={(e) => setExclusive({ ...exclusive, cta_text: e.target.value })}
+                    placeholder="Request Bespoke Fabric Swatches"
+                    className="w-full px-3.5 py-2 bg-slate-50 border border-slate-300 text-xs rounded focus:outline-none focus:border-gold"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[11px] uppercase tracking-luxury font-medium text-slate-600 mb-1">
+                    CTA Destination Link
+                  </label>
+                  <input
+                    type="text"
+                    value={exclusive.cta_link || ""}
+                    onChange={(e) => setExclusive({ ...exclusive, cta_link: e.target.value })}
+                    placeholder="/collections/exclusive-luxury-suiting"
+                    className="w-full px-3.5 py-2 bg-slate-50 border border-slate-300 text-xs rounded focus:outline-none focus:border-gold"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Right Visual Card Image Uploader (5 Cols) */}
+            <div className="lg:col-span-5 space-y-3">
+              <label className="block text-xs uppercase tracking-luxury font-semibold text-slate-700">
+                Right Atelier Visual Card Image
+              </label>
+
+              {exclusive.image_url ? (
+                <div className="relative aspect-[4/3] w-full rounded-lg border border-slate-200 overflow-hidden shadow-sm group">
+                  <Image
+                    src={exclusive.image_url}
+                    alt={exclusive.badge_title || "Atelier Suiting"}
+                    fill
+                    className="object-cover"
+                  />
+                  <div className="absolute inset-0 bg-navy-deep/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                    <label className="cursor-pointer px-3 py-1.5 bg-white hover:bg-slate-100 text-navy text-xs font-semibold rounded shadow flex items-center gap-1.5">
+                      <Upload className="w-3.5 h-3.5 text-gold" />
+                      <span>Change</span>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        onChange={(e) => {
+                          if (e.target.files?.[0]) handleExclusiveImageUpload(e.target.files[0]);
+                        }}
+                      />
+                    </label>
+                    <button
+                      type="button"
+                      onClick={() => setExclusive({ ...exclusive, image_url: null, image_public_id: null })}
+                      className="px-3 py-1.5 bg-red-600 hover:bg-red-700 text-white text-xs font-semibold rounded shadow flex items-center gap-1"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                      <span>Remove</span>
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <label className="flex flex-col items-center justify-center w-full aspect-[4/3] border-2 border-dashed border-slate-300 hover:border-gold rounded-lg cursor-pointer bg-slate-50 transition-colors p-4 text-center">
+                  {uploadingExclusiveImage ? (
+                    <div className="flex flex-col items-center gap-2 text-slate-500 text-xs">
+                      <Loader2 className="w-6 h-6 animate-spin text-gold" />
+                      <span className="font-medium">Uploading to Cloudinary...</span>
+                    </div>
+                  ) : (
+                    <div className="flex flex-col items-center gap-2 text-slate-500 text-xs">
+                      <div className="w-10 h-10 rounded-full border border-gold/40 bg-white flex items-center justify-center text-gold shadow-xs">
+                        <Upload className="w-4 h-4 stroke-[1.5]" />
+                      </div>
+                      <span className="font-semibold text-slate-800">Click to upload suiting photo</span>
+                      <span className="text-[10px] text-slate-400">Stores in Cloudinary &bull; High-res 4:3 suiting cloth</span>
+                    </div>
+                  )}
+                  <input
+                    type="file"
+                    accept="image/*"
+                    disabled={uploadingExclusiveImage}
+                    className="hidden"
+                    onChange={(e) => {
+                      if (e.target.files?.[0]) handleExclusiveImageUpload(e.target.files[0]);
+                    }}
+                  />
+                </label>
+              )}
+
+              {/* Right Card Overlay Badge Details */}
+              <div className="space-y-3 pt-2">
+                <div>
+                  <label className="block text-[11px] uppercase tracking-luxury font-medium text-slate-600 mb-1">
+                    Badge Title
+                  </label>
+                  <input
+                    type="text"
+                    value={exclusive.badge_title || ""}
+                    onChange={(e) => setExclusive({ ...exclusive, badge_title: e.target.value })}
+                    placeholder="Atelier Suiting Cuts"
+                    className="w-full px-3 py-1.5 bg-slate-50 border border-slate-300 text-xs rounded focus:outline-none focus:border-gold"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[11px] uppercase tracking-luxury font-medium text-slate-600 mb-1">
+                    Badge Subtitle
+                  </label>
+                  <input
+                    type="text"
+                    value={exclusive.badge_subtitle || ""}
+                    onChange={(e) => setExclusive({ ...exclusive, badge_subtitle: e.target.value })}
+                    placeholder="STITCH • STYLE • ELEGANCE"
+                    className="w-full px-3 py-1.5 bg-slate-50 border border-slate-300 text-xs rounded focus:outline-none focus:border-gold"
+                  />
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        {/* SECTION 3: ANNOUNCEMENT BAR */}
         <div className="p-6 bg-white border border-slate-200 rounded-lg shadow-sm space-y-4">
           <div className="flex items-center gap-2 border-b border-slate-200 pb-3">
             <Globe className="w-5 h-5 text-gold" />
@@ -423,7 +726,7 @@ export default function AdminSettingsPage() {
           </div>
         </div>
 
-        {/* SECTION 3: BRAND STORY SECTION */}
+        {/* SECTION 4: BRAND STORY SECTION */}
         <div className="p-6 bg-white border border-slate-200 rounded-lg shadow-sm space-y-4">
           <div className="flex items-center gap-2 border-b border-slate-200 pb-3">
             <Shield className="w-5 h-5 text-gold" />
@@ -480,7 +783,7 @@ export default function AdminSettingsPage() {
           </div>
         </div>
 
-        {/* SECTION 4: CONTACT & CONCIERGE INFORMATION */}
+        {/* SECTION 5: CONTACT & CONCIERGE INFORMATION */}
         <div className="p-6 bg-white border border-slate-200 rounded-lg shadow-sm space-y-4">
           <div className="flex items-center gap-2 border-b border-slate-200 pb-3">
             <Mail className="w-5 h-5 text-gold" />
@@ -552,7 +855,7 @@ export default function AdminSettingsPage() {
           </div>
         </div>
 
-        {/* SECTION 5: SHIPPING THRESHOLDS */}
+        {/* SECTION 6: SHIPPING THRESHOLDS */}
         <div className="p-6 bg-white border border-slate-200 rounded-lg shadow-sm space-y-4">
           <div className="flex items-center gap-2 border-b border-slate-200 pb-3">
             <CreditCard className="w-5 h-5 text-gold" />

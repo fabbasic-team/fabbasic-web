@@ -15,6 +15,22 @@ export interface EditorialFeatureSettings {
   cta_link: string;
 }
 
+export interface ExclusiveFeatureSettings {
+  is_active: boolean;
+  image_url: string | null;
+  image_public_id?: string | null;
+  section_eyebrow?: string;
+  section_heading?: string;
+  section_subheading?: string;
+  card_eyebrow?: string;
+  card_title?: string;
+  card_description?: string;
+  cta_text?: string;
+  cta_link?: string;
+  badge_title?: string;
+  badge_subtitle?: string;
+}
+
 export interface StoreSettings {
   id: string;
   site_name: string;
@@ -33,6 +49,7 @@ export interface StoreSettings {
   brand_story_text: string;
   brand_story_image: string | null;
   editorial_feature?: EditorialFeatureSettings;
+  exclusive_feature?: ExclusiveFeatureSettings;
   signature_selection_heading: string;
   signature_selection_subheading: string;
   exclusive_collection_heading: string;

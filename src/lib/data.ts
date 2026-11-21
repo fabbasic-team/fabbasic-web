@@ -1,5 +1,12 @@
 import { createAdminClient } from "@/utils/supabase/admin";
-import { StoreSettings, HomepageBanner, Category, Product, EditorialFeatureSettings } from "@/types";
+import {
+  StoreSettings,
+  HomepageBanner,
+  Category,
+  Product,
+  EditorialFeatureSettings,
+  ExclusiveFeatureSettings,
+} from "@/types";
 
 export const DEFAULT_EDITORIAL_FEATURE: EditorialFeatureSettings = {
   is_active: true,
@@ -16,6 +23,23 @@ export const DEFAULT_EDITORIAL_FEATURE: EditorialFeatureSettings = {
     "Whether tailoring a sharp ceremonial two-piece or commissioning everyday executive shirting, our collection bridges European textile precision with Indian sartorial mastery.",
   cta_text: "Explore The Mill Archive",
   cta_link: "/collections",
+};
+
+export const DEFAULT_EXCLUSIVE_FEATURE: ExclusiveFeatureSettings = {
+  is_active: true,
+  image_url: null,
+  image_public_id: null,
+  section_eyebrow: "EXCLUSIVE LUXURY SUITING",
+  section_heading: "Beyond the Ordinary",
+  section_subheading: "Discover exceptional fabrics selected for discerning tastes.",
+  card_eyebrow: "Haute Tailoring Textiles",
+  card_title: "Super 150s Worsted Wools, Cashmere Blends & Noble Silks",
+  card_description:
+    "Each cut in our exclusive collection is sourced directly from prestigious European and master Indian mills. Reserved for the pinnacle of bespoke suiting, ceremonial tuxedos, and tailored eveningwear.",
+  cta_text: "Request Bespoke Fabric Swatches",
+  cta_link: "/collections/exclusive-luxury-suiting",
+  badge_title: "Atelier Suiting Cuts",
+  badge_subtitle: "STITCH • STYLE • ELEGANCE",
 };
 
 // Default settings if database row is not yet initialized
@@ -38,6 +62,7 @@ export const DEFAULT_STORE_SETTINGS: StoreSettings = {
     "At FAB BASIC, we believe tailoring begins with extraordinary cloth. From prestigious European mills to artisanal Indian handloom masters, our textiles are chosen for exceptional drape, durability, and hand-feel.",
   brand_story_image: null,
   editorial_feature: DEFAULT_EDITORIAL_FEATURE,
+  exclusive_feature: DEFAULT_EXCLUSIVE_FEATURE,
   signature_selection_heading: "The Signature Selection",
   signature_selection_subheading: "A collection of customer favourites and enduring classics.",
   exclusive_collection_heading: "Beyond the Ordinary",
@@ -66,20 +91,32 @@ export async function getStoreSettings(): Promise<StoreSettings> {
     }
 
     let editorialFeature = DEFAULT_EDITORIAL_FEATURE;
-    if (data.brand_story_image && typeof data.brand_story_image === "string" && data.brand_story_image.startsWith("{")) {
+    let exclusiveFeature = DEFAULT_EXCLUSIVE_FEATURE;
+
+    if (
+      data.brand_story_image &&
+      typeof data.brand_story_image === "string" &&
+      data.brand_story_image.startsWith("{")
+    ) {
       try {
-        editorialFeature = {
-          ...DEFAULT_EDITORIAL_FEATURE,
-          ...JSON.parse(data.brand_story_image),
-        };
+        const parsed = JSON.parse(data.brand_story_image);
+        if (parsed.editorial_feature) {
+          editorialFeature = { ...DEFAULT_EDITORIAL_FEATURE, ...parsed.editorial_feature };
+        } else if (parsed.heading) {
+          editorialFeature = { ...DEFAULT_EDITORIAL_FEATURE, ...parsed };
+        }
+        if (parsed.exclusive_feature) {
+          exclusiveFeature = { ...DEFAULT_EXCLUSIVE_FEATURE, ...parsed.exclusive_feature };
+        }
       } catch (err) {
-        console.error("Error parsing editorial feature settings:", err);
+        console.error("Error parsing feature settings JSON:", err);
       }
     }
 
     return {
       ...data,
       editorial_feature: editorialFeature,
+      exclusive_feature: exclusiveFeature,
     } as StoreSettings;
   } catch {
     return DEFAULT_STORE_SETTINGS;
