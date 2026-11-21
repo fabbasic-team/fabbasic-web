@@ -40,9 +40,9 @@ export default async function AboutPage() {
             </div>
 
             <div className="relative z-10 text-center space-y-4 max-w-lg mx-auto my-auto">
-              <div className="relative w-44 h-14 mx-auto">
+              <div className="relative w-48 h-14 mx-auto">
                 <Image
-                  src="/fab-basic-logo.png"
+                  src="/fab_basic_logo_transparent.png"
                   alt="FAB BASIC"
                   fill
                   className="object-contain brightness-0 invert"

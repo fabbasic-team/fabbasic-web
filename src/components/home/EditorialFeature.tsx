@@ -23,9 +23,9 @@ export default function EditorialFeature() {
               </div>
 
               <div className="relative z-10 space-y-3 max-w-md">
-                <div className="relative w-36 h-10">
+                <div className="relative w-40 h-11">
                   <Image
-                    src="/fab-basic-logo.png"
+                    src="/fab_basic_logo_transparent.png"
                     alt="FAB BASIC"
                     fill
                     className="object-contain object-left brightness-0 invert"

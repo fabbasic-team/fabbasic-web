@@ -111,27 +111,29 @@ export default function CategoryGrid({ categories }: CategoryGridProps) {
               href={`/collections/${cat.slug}`}
               className="group flex flex-col bg-white border border-beige-border hover:border-gold/60 transition-all duration-300 overflow-hidden shadow-sm hover:shadow-md"
             >
-              {/* Category Image or Textured Monogram */}
+              {/* Category Image or Textured Swatch Canvas */}
               <div className="relative aspect-[4/5] w-full bg-beige-subtle overflow-hidden">
                 {cat.image_url ? (
-                  <Image
-                    src={cat.image_url}
-                    alt={cat.name}
-                    fill
-                    className="object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
-                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 16vw"
-                  />
+                  <>
+                    <Image
+                      src={cat.image_url}
+                      alt={cat.name}
+                      fill
+                      className="object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
+                      sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 16vw"
+                    />
+                    <div className="absolute inset-0 bg-navy-deep/10 group-hover:bg-navy-deep/0 transition-colors duration-300" />
+                  </>
                 ) : (
-                  <div className="w-full h-full flex flex-col items-center justify-center p-4 bg-navy-surface text-center space-y-2 group-hover:bg-navy transition-colors">
-                    <div className="w-10 h-10 rounded-full border border-gold/40 flex items-center justify-center text-gold">
-                      <Scissors className="w-4 h-4" />
+                  <div className="w-full h-full flex flex-col items-center justify-center p-4 bg-gradient-to-br from-[#FAF9F6] via-[#F5F2EB] to-[#EAE4D9] text-center space-y-2 border border-beige-border group-hover:border-gold/60 transition-colors">
+                    <div className="w-10 h-10 rounded-full border border-gold/40 bg-white/90 shadow-sm flex items-center justify-center text-gold group-hover:scale-105 transition-transform">
+                      <Scissors className="w-4 h-4 stroke-[1.5]" />
                     </div>
-                    <span className="text-[10px] text-gold/80 uppercase tracking-widest font-mono">
-                      FAB BASIC
+                    <span className="text-[10px] text-gold font-semibold uppercase tracking-luxury">
+                      FINE WEAVE
                     </span>
                   </div>
                 )}
-                <div className="absolute inset-0 bg-navy-deep/10 group-hover:bg-navy-deep/0 transition-colors duration-300" />
               </div>
 
               {/* Caption */}

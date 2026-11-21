@@ -10,7 +10,7 @@ export default function BrandStory({ settings }: { settings: StoreSettings }) {
         <div className="flex justify-center mb-4">
           <div className="w-8 h-8 relative opacity-80">
             <Image
-              src="/fab-basic-logo.png"
+              src="/fab_basic_logo_transparent.png"
               alt="FAB BASIC Lotus Needle Emblem"
               fill
               className="object-contain"

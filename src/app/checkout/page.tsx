@@ -153,9 +153,9 @@ export default function CheckoutPage() {
           
           {/* Top Brand Bar */}
           <div className="flex items-center justify-between pb-8 mb-8 border-b border-beige-border">
-            <Link href="/" className="relative w-36 h-10 block">
+            <Link href="/" className="relative w-44 h-12 block">
               <Image
-                src="/fab-basic-logo.png"
+                src="/fab_basic_logo_transparent.png"
                 alt="FAB BASIC"
                 fill
                 className="object-contain object-left"

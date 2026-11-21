@@ -24,7 +24,7 @@ interface HeaderProps {
   onOpenSearch: () => void;
 }
 
-// Subcategory links for luxury mega-dropdowns
+// Curated submenus for mega-dropdowns
 const CATEGORY_SUBMENUS: Record<
   string,
   { title: string; desc: string; items: { label: string; href: string }[] }
@@ -79,7 +79,7 @@ export default function Header({ categories, settings, onOpenSearch }: HeaderPro
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Close mobile menu on route change
+  // Close mobile menu and dropdown on route change
   useEffect(() => {
     setMobileMenuOpen(false);
     setActiveDropdown(null);
@@ -100,10 +100,8 @@ export default function Header({ categories, settings, onOpenSearch }: HeaderPro
 
   return (
     <header
-      className={`sticky top-0 z-40 w-full transition-all duration-300 bg-white/98 backdrop-blur-md border-b ${
-        isScrolled
-          ? "border-beige-border shadow-sm h-18 sm:h-20"
-          : "border-beige-border/70 h-20 sm:h-22"
+      className={`sticky top-0 z-40 w-full transition-all duration-300 bg-white border-b border-[#E9E5DE] ${
+        isScrolled ? "shadow-md h-20" : "shadow-sm h-20 sm:h-24"
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
@@ -120,12 +118,12 @@ export default function Header({ categories, settings, onOpenSearch }: HeaderPro
             </button>
           </div>
 
-          {/* Brand Logo - Perfectly centered vertically */}
+          {/* Brand Logo - Uses fab_basic_logo_transparent.png with crisp proportions */}
           <div className="flex-shrink-0 flex items-center">
-            <Link href="/" className="inline-flex items-center group">
-              <div className="relative w-36 sm:w-44 lg:w-48 h-11 sm:h-12 flex items-center">
+            <Link href="/" className="inline-flex items-center group py-2">
+              <div className="relative w-40 sm:w-52 h-12 sm:h-14 flex items-center">
                 <Image
-                  src="/fab-basic-logo.png"
+                  src="/fab_basic_logo_transparent.png"
                   alt={`${settings.site_name} - ${settings.tagline}`}
                   fill
                   priority
@@ -160,7 +158,7 @@ export default function Header({ categories, settings, onOpenSearch }: HeaderPro
                     <span>{cat.name}</span>
                     {submenu && (
                       <ChevronDown
-                        className={`w-3 h-3 text-charcoal/50 group-hover:text-gold transition-transform duration-200 ${
+                        className={`w-3.5 h-3.5 text-navy/40 group-hover:text-gold transition-transform duration-200 ${
                           isHovered ? "rotate-180 text-gold" : ""
                         }`}
                       />
@@ -169,21 +167,21 @@ export default function Header({ categories, settings, onOpenSearch }: HeaderPro
 
                   {/* Active Route Indicator Line */}
                   {isActive && (
-                    <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-gold" />
+                    <span className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-gold" />
                   )}
 
                   {/* Editorial Dropdown Menu */}
                   {submenu && isHovered && (
                     <div
-                      className="absolute top-full left-1/2 -translate-x-1/2 w-80 bg-white border border-beige-border shadow-xl rounded-b-sm p-5 z-50 animate-fade-in"
+                      className="absolute top-full left-1/2 -translate-x-1/2 w-80 bg-white border border-[#E9E5DE] shadow-xl rounded-b-sm p-5 z-50 animate-fade-in"
                       onMouseEnter={() => setActiveDropdown(cat.slug)}
                       onMouseLeave={() => setActiveDropdown(null)}
                     >
-                      <div className="border-b border-beige-border pb-3 mb-3">
+                      <div className="border-b border-[#E9E5DE] pb-3 mb-3">
                         <p className="text-[11px] font-semibold uppercase tracking-luxury text-gold">
                           {submenu.title}
                         </p>
-                        <p className="text-xs text-charcoal/80 font-light mt-0.5">
+                        <p className="text-xs text-charcoal font-light mt-0.5">
                           {submenu.desc}
                         </p>
                       </div>
@@ -200,7 +198,7 @@ export default function Header({ categories, settings, onOpenSearch }: HeaderPro
                         ))}
                       </div>
 
-                      <div className="pt-4 mt-3 border-t border-beige-border">
+                      <div className="pt-4 mt-3 border-t border-[#E9E5DE]">
                         <Link
                           href={`/collections/${cat.slug}`}
                           className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-luxury text-navy hover:text-gold transition-colors"
@@ -216,12 +214,12 @@ export default function Header({ categories, settings, onOpenSearch }: HeaderPro
             })}
           </nav>
 
-          {/* Right Action Icons - Clean alignment with custom gold counter badges */}
+          {/* Right Action Icons - Clean alignment with gold counter badge */}
           <div className="flex items-center space-x-1 sm:space-x-2 lg:space-x-3">
             {/* Search Trigger */}
             <button
               onClick={onOpenSearch}
-              className="p-2 text-navy hover:text-gold transition-colors relative flex items-center justify-center rounded-full hover:bg-beige-subtle/50"
+              className="p-2.5 text-navy hover:text-gold transition-colors relative flex items-center justify-center rounded-full hover:bg-beige-subtle/60"
               aria-label="Search fabric catalog"
             >
               <Search className="w-5 h-5 stroke-[1.5]" />
@@ -230,7 +228,7 @@ export default function Header({ categories, settings, onOpenSearch }: HeaderPro
             {/* Account / Admin Portal */}
             <Link
               href="/admin"
-              className="p-2 text-navy hover:text-gold transition-colors hidden sm:flex items-center justify-center rounded-full hover:bg-beige-subtle/50"
+              className="p-2.5 text-navy hover:text-gold transition-colors hidden sm:flex items-center justify-center rounded-full hover:bg-beige-subtle/60"
               title="Admin Portal"
               aria-label="Admin Portal"
             >
@@ -240,12 +238,12 @@ export default function Header({ categories, settings, onOpenSearch }: HeaderPro
             {/* Wishlist Icon */}
             <Link
               href="/wishlist"
-              className="p-2 text-navy hover:text-gold transition-colors relative flex items-center justify-center rounded-full hover:bg-beige-subtle/50"
+              className="p-2.5 text-navy hover:text-gold transition-colors relative flex items-center justify-center rounded-full hover:bg-beige-subtle/60"
               aria-label="View Saved Wishlist"
             >
               <Heart className="w-5 h-5 stroke-[1.5]" />
               {totalWishlistItems > 0 && (
-                <span className="absolute top-1 right-1 min-w-[16px] h-4 px-1 bg-gold text-white text-[9px] font-bold rounded-full flex items-center justify-center leading-none shadow-sm">
+                <span className="absolute top-1 right-1 min-w-[17px] h-[17px] px-1 bg-gold text-white text-[9px] font-bold rounded-full flex items-center justify-center leading-none shadow-sm">
                   {totalWishlistItems}
                 </span>
               )}
@@ -254,11 +252,11 @@ export default function Header({ categories, settings, onOpenSearch }: HeaderPro
             {/* Shopping Bag Trigger with Gold Badge */}
             <button
               onClick={openCart}
-              className="p-2 text-navy hover:text-gold transition-colors relative flex items-center justify-center rounded-full hover:bg-beige-subtle/50"
+              className="p-2.5 text-navy hover:text-gold transition-colors relative flex items-center justify-center rounded-full hover:bg-beige-subtle/60"
               aria-label="Open Shopping Bag"
             >
               <ShoppingBag className="w-5 h-5 stroke-[1.5]" />
-              <span className="absolute top-1 right-1 min-w-[16px] h-4 px-1 bg-gold text-white text-[9px] font-bold rounded-full flex items-center justify-center leading-none shadow-sm">
+              <span className="absolute top-1 right-1 min-w-[17px] h-[17px] px-1 bg-gold text-white text-[9px] font-bold rounded-full flex items-center justify-center leading-none shadow-sm">
                 {totalItems}
               </span>
             </button>
@@ -276,13 +274,13 @@ export default function Header({ categories, settings, onOpenSearch }: HeaderPro
           />
 
           {/* Drawer Panel */}
-          <div className="fixed inset-y-0 left-0 max-w-xs w-full bg-ivory shadow-2xl flex flex-col justify-between z-50 border-r border-beige-border animate-slide-right overflow-y-auto">
+          <div className="fixed inset-y-0 left-0 max-w-xs w-full bg-ivory shadow-2xl flex flex-col justify-between z-50 border-r border-[#E9E5DE] animate-slide-right overflow-y-auto">
             <div>
               {/* Drawer Header */}
-              <div className="flex items-center justify-between p-5 border-b border-beige-border bg-white">
-                <div className="relative w-36 h-10">
+              <div className="flex items-center justify-between p-5 border-b border-[#E9E5DE] bg-white">
+                <div className="relative w-36 h-11">
                   <Image
-                    src="/fab-basic-logo.png"
+                    src="/fab_basic_logo_transparent.png"
                     alt={settings.site_name}
                     fill
                     className="object-contain object-left"
@@ -308,7 +306,7 @@ export default function Header({ categories, settings, onOpenSearch }: HeaderPro
                       <Link
                         key={cat.id || cat.slug}
                         href={`/collections/${cat.slug}`}
-                        className="block text-sm font-medium text-navy hover:text-gold transition-colors py-2 border-b border-beige-border/40"
+                        className="block text-sm font-medium text-navy hover:text-gold transition-colors py-2 border-b border-[#E9E5DE]/40"
                         onClick={() => setMobileMenuOpen(false)}
                       >
                         {cat.name}
@@ -357,7 +355,7 @@ export default function Header({ categories, settings, onOpenSearch }: HeaderPro
                   </div>
                 </div>
 
-                <div className="pt-2 border-t border-beige-border space-y-2">
+                <div className="pt-2 border-t border-[#E9E5DE] space-y-2">
                   <Link
                     href="/about"
                     className="block text-xs text-charcoal hover:text-navy transition-colors py-1"
@@ -384,7 +382,7 @@ export default function Header({ categories, settings, onOpenSearch }: HeaderPro
             </div>
 
             {/* Drawer Footer Contact */}
-            <div className="p-5 border-t border-beige-border bg-beige-subtle/50 text-[11px] text-charcoal space-y-1">
+            <div className="p-5 border-t border-[#E9E5DE] bg-beige-subtle/50 text-[11px] text-charcoal space-y-1">
               <p className="font-semibold text-navy uppercase tracking-luxury">
                 {settings.site_name}
               </p>

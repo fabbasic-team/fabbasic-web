@@ -83,7 +83,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       <div className="lg:hidden bg-navy-deep text-ivory p-4 flex items-center justify-between border-b border-navy-light">
         <div className="relative w-36 h-9">
           <Image
-            src="/fab-basic-logo.png"
+            src="/fab_basic_logo_transparent.png"
             alt="FAB BASIC Admin"
             fill
             className="object-contain object-left brightness-0 invert"
@@ -109,7 +109,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <div className="p-6 border-b border-navy-light/40">
             <div className="relative w-44 h-12">
               <Image
-                src="/fab-basic-logo.png"
+                src="/fab_basic_logo_transparent.png"
                 alt="FAB BASIC"
                 fill
                 priority

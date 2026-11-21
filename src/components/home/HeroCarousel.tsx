@@ -138,7 +138,7 @@ export default function HeroCarousel({ banners }: HeroCarouselProps) {
                 <div className="absolute inset-0 opacity-15 bg-[radial-gradient(#B99A59_1px,transparent_1px)] [background-size:24px_24px]" />
                 <div className="relative w-64 h-64 sm:w-96 sm:h-96 opacity-10">
                   <Image
-                    src="/fab-basic-logo.png"
+                    src="/fab_basic_logo_transparent.png"
                     alt="FAB BASIC"
                     fill
                     className="object-contain brightness-0 invert"

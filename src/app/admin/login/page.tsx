@@ -49,7 +49,7 @@ export default function AdminLoginPage() {
         <div className="text-center mb-8 space-y-3">
           <div className="relative w-48 h-14 mx-auto">
             <Image
-              src="/fab-basic-logo.png"
+              src="/fab_basic_logo_transparent.png"
               alt="FAB BASIC"
               fill
               priority

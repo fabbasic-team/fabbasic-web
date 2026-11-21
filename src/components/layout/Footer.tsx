@@ -26,9 +26,9 @@ export default function Footer({ settings, categories }: FooterProps) {
           
           {/* Column 1: Brand & Craftsmanship */}
           <div className="lg:col-span-2 space-y-5">
-            <div className="relative w-44 h-12">
+            <div className="relative w-48 h-14">
               <Image
-                src="/fab-basic-logo.png"
+                src="/fab_basic_logo_transparent.png"
                 alt={settings.site_name}
                 fill
                 className="object-contain object-left brightness-0 invert"
